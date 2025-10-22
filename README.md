@@ -1,10 +1,10 @@
 # AM/FM Performance Analysis - Monte Carlo Simulation
 
-This project implements a comparative analysis of Amplitude Modulation (AM) and Frequency Modulation (FM) systems under various noise conditions using Monte Carlo simulation in Go.
+This project implements a comprehensive comparative analysis of Amplitude Modulation (AM) and Frequency Modulation (FM) systems under various noise conditions using Monte Carlo simulation in Go. **Now with full custom parameter support!**
 
 ## 🎯 Objective
 
-To simulate AM and FM communication systems under noisy channel conditions, analyze their Signal-to-Noise Ratio (SNR) performance, and demonstrate how FM exhibits better noise immunity compared to AM.
+To simulate AM and FM communication systems under noisy channel conditions, analyze their Signal-to-Noise Ratio (SNR) performance, and demonstrate how FM exhibits better noise immunity compared to AM. Users can now customize all simulation parameters for detailed analysis.
 
 ## 🏗️ Project Structure
 
@@ -77,16 +77,129 @@ cd am-fm-simulation
 
 # Install dependencies
 go mod tidy
+```
 
-# Run the simulation
+### 🎯 **Basic Usage Options**
+
+#### **1. Default Simulation**
+```bash
+# Run with default parameters
 go run main.go results.go
+```
 
+#### **2. Interactive Custom Mode**
+```bash
+# Step-by-step interactive configuration
+go run main.go results.go custom
+```
+
+#### **3. Command-Line Custom Parameters**
+```bash
+# Custom parameters via command line
+go run main.go results.go --message-freq=100 --carrier-freq=2000 --snr-range="0,10,20" --trials=50
+```
+
+#### **4. Help System**
+```bash
+# Show comprehensive usage guide
+go run main.go results.go help
+```
+
+### 🔧 **Custom Parameter Options**
+
+| Parameter | Command Line | Description | Default | Example |
+|-----------|-------------|-------------|---------|---------|
+| **Sampling Rate** | `--sampling-rate=N` | Sampling rate in Hz | 10000 | `--sampling-rate=20000` |
+| **Duration** | `--duration=N` | Signal duration in seconds | 0.1 | `--duration=0.2` |
+| **Message Frequency** | `--message-freq=N` | Message frequency in Hz | 50 | `--message-freq=100` |
+| **Carrier Frequency** | `--carrier-freq=N` | Carrier frequency in Hz | 1000 | `--carrier-freq=5000` |
+| **Message Amplitude** | `--message-amp=N` | Message amplitude | 1.0 | `--message-amp=1.5` |
+| **Carrier Amplitude** | `--carrier-amp=N` | Carrier amplitude | 1.0 | `--carrier-amp=2.0` |
+| **AM Modulation** | `--am-mod=N` | AM modulation index (0-1) | 0.5 | `--am-mod=0.8` |
+| **FM Deviation** | `--fm-dev=N` | FM frequency deviation in Hz | 200 | `--fm-dev=400` |
+| **SNR Range** | `--snr-range="N1,N2,N3"` | SNR range in dB | -5,0,5,10,15,20,25,30 | `--snr-range="0,10,20,30"` |
+| **Trials** | `--trials=N` | Number of trials per SNR point | 100 | `--trials=500` |
+
+### 📊 **Usage Examples**
+
+#### **High-Frequency Analysis**
+```bash
+go run main.go results.go --message-freq=1000 --carrier-freq=10000 --snr-range="0,10,20,30"
+```
+
+#### **Low-SNR Analysis**
+```bash
+go run main.go results.go --snr-range="-20,-10,0,10" --trials=500
+```
+
+#### **High-Speed Sampling**
+```bash
+go run main.go results.go --sampling-rate=50000 --duration=0.05 --trials=200
+```
+
+#### **Custom Modulation Analysis**
+```bash
+go run main.go results.go --am-mod=0.8 --fm-dev=400 --snr-range="5,15,25" --trials=300
+```
+
+#### **Interactive Configuration**
+```bash
+go run main.go results.go custom
+# Follow the prompts to configure each parameter
+```
+
+### 🧪 **Testing and Validation**
+
+```bash
 # Run tests
 go test -v
 
 # Run benchmarks
 go test -bench=.
 ```
+
+## 🆕 **New Features - Custom Parameter Support**
+
+### **Interactive Mode**
+The interactive mode allows step-by-step configuration of all simulation parameters:
+
+```bash
+go run main.go results.go custom
+```
+
+**Interactive prompts include:**
+- Sampling Rate (Hz)
+- Signal Duration (seconds)
+- Message Frequency (Hz)
+- Carrier Frequency (Hz)
+- Message Amplitude
+- Carrier Amplitude
+- AM Modulation Index (0-1)
+- FM Frequency Deviation (Hz)
+- SNR Range (comma-separated values)
+- Number of trials per SNR point
+
+### **Command-Line Customization**
+All parameters can be set via command-line arguments for automation and scripting:
+
+```bash
+# Example: High-frequency analysis with custom parameters
+go run main.go results.go \
+  --sampling-rate=20000 \
+  --duration=0.2 \
+  --message-freq=1000 \
+  --carrier-freq=10000 \
+  --am-mod=0.8 \
+  --fm-dev=400 \
+  --snr-range="0,10,20,30" \
+  --trials=200
+```
+
+### **Parameter Validation**
+- All inputs are validated with sensible defaults
+- Invalid values fall back to defaults
+- Error handling for malformed inputs
+- Range checking for critical parameters
 
 ### Output Files
 
@@ -102,6 +215,57 @@ The simulation generates several output files:
 **Data (CSV):**
 - `snr_results.csv` - Input/output SNR comparison data
 - `baseband_signal.csv` - Sample baseband signal data
+
+## 📊 **Comprehensive Usage Examples**
+
+### **Example 1: Basic Analysis**
+```bash
+# Default parameters - good for general analysis
+go run main.go results.go
+```
+
+### **Example 2: High-Frequency Analysis**
+```bash
+# Analyze high-frequency signals
+go run main.go results.go \
+  --message-freq=1000 \
+  --carrier-freq=10000 \
+  --sampling-rate=50000 \
+  --snr-range="0,10,20,30"
+```
+
+### **Example 3: Low-SNR Analysis**
+```bash
+# Focus on low SNR performance
+go run main.go results.go \
+  --snr-range="-20,-10,0,10" \
+  --trials=500
+```
+
+### **Example 4: Custom Modulation Analysis**
+```bash
+# Test different modulation parameters
+go run main.go results.go \
+  --am-mod=0.8 \
+  --fm-dev=400 \
+  --snr-range="5,15,25" \
+  --trials=300
+```
+
+### **Example 5: Interactive Configuration**
+```bash
+# Step-by-step parameter configuration
+go run main.go results.go custom
+```
+
+### **Example 6: High-Speed Sampling**
+```bash
+# High-speed sampling for detailed analysis
+go run main.go results.go \
+  --sampling-rate=100000 \
+  --duration=0.05 \
+  --trials=200
+```
 
 ## 📊 Key Parameters
 
@@ -120,8 +284,9 @@ SignalParams{
 ```
 
 ### Monte Carlo Simulation
-- **SNR Range:** -5 dB to 30 dB (8 points)
-- **Trials:** 100 per SNR level
+- **Default SNR Range:** -5 dB to 30 dB (8 points)
+- **Default Trials:** 100 per SNR level
+- **Customizable:** All parameters can be customized
 - **Metrics:** Output SNR for both AM and FM
 
 ## 📈 Expected Results
@@ -155,32 +320,115 @@ Comprehensive unit tests cover:
 
 Run tests with: `go test -v`
 
-## 🔧 Customization
+## 🔧 **Advanced Customization**
 
-### Modify Signal Parameters
-Edit the `params` and `fmParams` structures in `main.go`:
+### **Command-Line Parameter Reference**
+All parameters can be customized via command-line arguments:
 
-```go
-params := SignalParams{
-    SamplingRate:  20000,  // Higher sampling rate
-    MessageFreq:   25,     // Lower message frequency
-    ModulationIdx: 0.8,    // Higher AM modulation
-}
+```bash
+# Complete parameter list
+go run main.go results.go \
+  --sampling-rate=20000 \
+  --duration=0.2 \
+  --message-freq=100 \
+  --carrier-freq=5000 \
+  --message-amp=1.5 \
+  --carrier-amp=2.0 \
+  --am-mod=0.8 \
+  --fm-dev=400 \
+  --snr-range="0,10,20,30" \
+  --trials=500
 ```
 
-### Change Monte Carlo Settings
-Modify the simulation parameters:
+### **Interactive Mode Features**
+The interactive mode provides:
+- Step-by-step parameter configuration
+- Input validation with defaults
+- Configuration summary before execution
+- Error handling for invalid inputs
 
-```go
-snrRange := []float64{-10, -5, 0, 5, 10, 15, 20, 25, 30, 35}
-numTrials := 500  // More trials for better statistics
+### **Parameter Guidelines**
+
+#### **Sampling Rate**
+- **Minimum:** 2 × (Carrier Frequency + Message Frequency)
+- **Recommended:** 2.5 × Carrier Frequency (minimum for proper demodulation)
+- **Optimal:** 10 × Carrier Frequency
+- **Example:** For 5 kHz carrier, use ≥ 12.5 kHz sampling
+- **⚠️ Warning:** Insufficient sampling rate causes aliasing and incorrect AM demodulation
+
+#### **SNR Range**
+- **Low SNR:** -20 to 0 dB (noisy conditions)
+- **Medium SNR:** 0 to 20 dB (typical conditions)
+- **High SNR:** 20 to 40 dB (clean conditions)
+
+#### **Modulation Index**
+- **AM:** 0.0 to 1.0 (1.0 = 100% modulation)
+- **FM:** Frequency deviation in Hz (typically 50-500 Hz)
+
+### **Performance Optimization**
+- **High Trials:** Use 500+ trials for statistical accuracy
+- **Parallel Processing:** Automatically uses multiple CPU cores
+- **Memory Management:** Efficient for large simulations
+
+## 🚨 **Troubleshooting**
+
+### **Common Issues and Solutions**
+
+#### **1. Invalid Parameter Values**
+```bash
+# Problem: Invalid parameter causes fallback to defaults
+# Solution: Check parameter ranges and formats
+go run main.go results.go --am-mod=1.5  # Invalid: should be 0-1
+go run main.go results.go --am-mod=0.8  # Correct: valid range
 ```
 
-### Add Custom Analysis
-Extend the `monteCarloSimulation` function to include:
-- Bit Error Rate (BER) analysis
-- Different noise models
-- Additional modulation schemes
+#### **2. SNR Range Format**
+```bash
+# Problem: Incorrect SNR range format
+# Solution: Use comma-separated values in quotes
+go run main.go results.go --snr-range=0,10,20        # Wrong
+go run main.go results.go --snr-range="0,10,20"      # Correct
+```
+
+#### **3. Sampling Rate Issues**
+```bash
+# Problem: Aliasing due to low sampling rate causes AM output SNR = 0.00
+# Solution: Ensure sampling rate ≥ 2.5 × carrier frequency
+go run main.go results.go --carrier-freq=5000 --sampling-rate=10000  # Too low (2.0x ratio)
+go run main.go results.go --carrier-freq=5000 --sampling-rate=15000  # Correct (3.0x ratio)
+
+# The system will warn you about insufficient sampling rates:
+# ⚠️ Warning: Sampling rate (10000 Hz) may be too low for carrier frequency (5000 Hz)
+#    Recommended: Sampling rate ≥ 2.5 × Carrier frequency
+```
+
+#### **4. Memory Issues with Large Simulations**
+```bash
+# Problem: Out of memory with high trial counts
+# Solution: Reduce trials or use shorter duration
+go run main.go results.go --trials=10000 --duration=1.0  # May cause issues
+go run main.go results.go --trials=1000 --duration=0.1   # More manageable
+```
+
+### **Performance Tips**
+
+#### **Fast Analysis**
+```bash
+# Quick analysis with fewer trials
+go run main.go results.go --trials=50 --snr-range="0,10,20"
+```
+
+#### **High-Accuracy Analysis**
+```bash
+# High-accuracy analysis with more trials
+go run main.go results.go --trials=1000 --snr-range="-10,0,10,20,30"
+```
+
+#### **Interactive Mode for Complex Configurations**
+```bash
+# Use interactive mode for complex parameter combinations
+go run main.go results.go custom
+```
 
 ## 🚨 Known Limitations
 
@@ -223,5 +471,36 @@ Potential improvements include:
 This project is provided for educational and research purposes. Feel free to modify and extend for your learning needs.
 
 ---
+
+## 🚀 **Quick Reference**
+
+### **Most Common Commands**
+```bash
+# Default simulation
+go run main.go results.go
+
+# Interactive configuration
+go run main.go results.go custom
+
+# Help and examples
+go run main.go results.go help
+
+# High-frequency analysis
+go run main.go results.go --message-freq=1000 --carrier-freq=10000
+
+# Low-SNR analysis
+go run main.go results.go --snr-range="-20,-10,0,10" --trials=500
+```
+
+### **Parameter Quick Reference**
+| Parameter | Command | Default | Range |
+|-----------|---------|---------|-------|
+| Sampling Rate | `--sampling-rate` | 10000 | > 2×(carrier+message) |
+| Duration | `--duration` | 0.1 | 0.01-1.0 |
+| Message Freq | `--message-freq` | 50 | 1-10000 |
+| Carrier Freq | `--carrier-freq` | 1000 | 100-100000 |
+| AM Mod Index | `--am-mod` | 0.5 | 0.0-1.0 |
+| FM Deviation | `--fm-dev` | 200 | 50-1000 |
+| Trials | `--trials` | 100 | 10-10000 |
 
 **Note:** This implementation prioritizes educational clarity over production optimization. For professional applications, consider using established DSP libraries and more robust algorithms.
