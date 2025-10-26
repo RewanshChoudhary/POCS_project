@@ -91,9 +91,10 @@ class TestConfigFunctions(unittest.TestCase):
         self.assertIn('duration:', summary)
         self.assertIn('fm:', summary)
         self.assertIn('fc:', summary)
-        self.assertIn('AM index:', summary)
+        # String matches current summary format
+        self.assertIn('AM index ka:', summary)
         self.assertIn('FM deviation:', summary)
-        self.assertIn('SNR range:', summary)
+        self.assertIn('SNR range (dB):', summary)
         self.assertIn('trials:', summary)
     
     def test_choose_params_with_args(self):

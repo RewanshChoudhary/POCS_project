@@ -9,6 +9,7 @@ import numpy as np
 
 from config import SimulationParams
 from noise import calculate_signal_power, calculate_noise_power, calculate_snr_db
+from scipy import signal as sp_signal
 
 
 @dataclass
@@ -30,6 +31,15 @@ class PerformanceResults:
     fm_means: Dict[float, float]
     am_stds: Dict[float, float]  # input_snr -> std output_snr
     fm_stds: Dict[float, float]
+
+
+def _lowpass(data: np.ndarray, fs: float, cutoff_hz: float) -> np.ndarray:
+    nyq = 0.5 * fs
+    wn = min(cutoff_hz / nyq, 0.99)
+    if wn <= 0:
+        return data
+    b, a = sp_signal.butter(4, wn, btype="low")
+    return sp_signal.filtfilt(b, a, data)
 
 
 def calculate_output_snr(original_message: np.ndarray, demodulated_message: np.ndarray) -> float:
@@ -56,6 +66,51 @@ def calculate_output_snr(original_message: np.ndarray, demodulated_message: np.n
     snr_db = calculate_snr_db(signal_power, noise_power)
     
     return snr_db
+
+
+def calculate_output_snr_aligned(
+    original_message: np.ndarray,
+    demodulated_message: np.ndarray,
+    sampling_rate_hz: float,
+    message_freq_hz: float,
+    cutoff_factor: float = 2.0,
+    trim_fraction: float = 0.02,
+) -> float:
+    """Compute SNR after low-pass filtering and linear gain/offset alignment.
+
+    This yields a more physically meaningful output SNR by removing out-of-band
+    residue, aligning demodulated amplitude/offset to the original, and trimming
+    filter transients at edges.
+    """
+    # Ensure equal length and copy
+    n = min(len(original_message), len(demodulated_message))
+    if n <= 10:
+        return 0.0
+    x = np.asarray(original_message[:n], dtype=float)
+    y = np.asarray(demodulated_message[:n], dtype=float)
+
+    # Low-pass filter demodulated output to message band
+    cutoff_hz = min(0.45 * 0.5 * sampling_rate_hz, cutoff_factor * message_freq_hz)
+    y_f = _lowpass(y, sampling_rate_hz, cutoff_hz)
+
+    # Trim edges to avoid transient influence
+    trim = int(max(0, min(n * trim_fraction, n // 10)))
+    if trim > 0:
+        x = x[trim:-trim]
+        y_f = y_f[trim:-trim]
+
+    # Fit y_f ≈ a*x + b via least squares
+    X = np.vstack([x, np.ones_like(x)]).T
+    try:
+        a, b = np.linalg.lstsq(X, y_f, rcond=None)[0]
+    except Exception:
+        a, b = 1.0, 0.0
+    y_hat = a * x + b
+
+    # Compute powers
+    signal_power = calculate_signal_power(y_hat)
+    noise_power = calculate_signal_power(y_f - y_hat)
+    return calculate_snr_db(signal_power, noise_power)
 
 
 def run_monte_carlo_trial(params: SimulationParams, input_snr_db: float, trial_id: int) -> TrialResult:
@@ -92,9 +147,19 @@ def run_monte_carlo_trial(params: SimulationParams, input_snr_db: float, trial_i
     fm_demodulated = fm_demodulate_instantaneous_frequency(fm_noisy, t, params.carrier_freq, 
                                                           params.fm_deviation)
     
-    # Calculate output SNRs
-    output_snr_am = calculate_output_snr(original_message, am_demodulated)
-    output_snr_fm = calculate_output_snr(original_message, fm_demodulated)
+    # Calculate output SNRs with alignment and filtering
+    output_snr_am = calculate_output_snr_aligned(
+        original_message,
+        am_demodulated,
+        params.sampling_rate,
+        params.message_freq,
+    )
+    output_snr_fm = calculate_output_snr_aligned(
+        original_message,
+        fm_demodulated,
+        params.sampling_rate,
+        params.message_freq,
+    )
     
     return TrialResult(
         input_snr_db=input_snr_db,

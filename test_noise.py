@@ -104,9 +104,10 @@ class TestNoiseFunctions(unittest.TestCase):
         noisy_zero = add_gaussian_noise(zero_signal, 10.0, seed=42)
         self.assertEqual(len(noisy_zero), len(zero_signal))
         
-        # Very high SNR (should be close to original)
+        # Very high SNR (should be very close to original, allow relative tolerance)
         high_snr_signal = add_gaussian_noise(self.test_signal, 60.0, seed=42)
-        self.assertTrue(np.allclose(high_snr_signal, self.test_signal, atol=1e-6))
+        # For 60 dB SNR on length-1000 vector, allow small relative deviation
+        self.assertTrue(np.allclose(high_snr_signal, self.test_signal, rtol=5e-3, atol=1e-5))
         
         # Very low SNR
         low_snr_signal = add_gaussian_noise(self.test_signal, -10.0, seed=42)

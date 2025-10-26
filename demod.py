@@ -5,7 +5,8 @@ from scipy import signal
 
 
 def am_demodulate_envelope(am_signal: np.ndarray, t: np.ndarray, carrier_freq: float, 
-                          carrier_amplitude: float = 1.0, smoothing: bool = True) -> np.ndarray:
+                          carrier_amplitude: float = 1.0, smoothing: bool = True,
+                          message_freq: float | None = None) -> np.ndarray:
     """
     AM demodulation using envelope detection.
     
@@ -23,13 +24,14 @@ def am_demodulate_envelope(am_signal: np.ndarray, t: np.ndarray, carrier_freq: f
     envelope = np.abs(am_signal)
     
     if smoothing:
-        # Apply low-pass filter to remove high-frequency components
-        # Use a simple moving average or Butterworth filter
-        cutoff_freq = carrier_freq / 10.0  # Conservative cutoff
+        # Low-pass to message band; if message_freq provided, prefer ~2.5*fm
         nyquist = 1.0 / (2.0 * np.mean(np.diff(t)))
+        if message_freq is not None:
+            cutoff_freq = min(0.45 * nyquist, 2.5 * float(message_freq))
+        else:
+            cutoff_freq = min(0.45 * nyquist, carrier_freq / 5.0)
         normalized_cutoff = cutoff_freq / nyquist
-        
-        if normalized_cutoff < 1.0:
+        if 0.0 < normalized_cutoff < 1.0:
             b, a = signal.butter(4, normalized_cutoff, btype='low')
             envelope = signal.filtfilt(b, a, envelope)
     
