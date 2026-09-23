@@ -1,0 +1,2434 @@
+{
+  "rules": [
+    "In 100.0% of sessions, LOGIN is the first event.",
+    "After DELETE -> DELETE, LOGOUT appears next in 85.7% of cases (support=14).",
+    "After EDIT -> EDIT, LOGOUT appears next in 85.0% of cases (support=20).",
+    "After VIEW -> DELETE, LOGOUT appears next in 83.3% of cases (support=18).",
+    "In 100.0% of sessions, LOGOUT is the last event."
+  ],
+  "grammar_threshold": 0.7,
+  "min_support": 1,
+  "max_repair_cost": 2,
+  "validation_mode": "first",
+  "source_files": {
+    "training": "/home/rewansh57/Projects/autosense/data/sample_logs.txt",
+    "test": "/home/rewansh57/Projects/autosense/data/test_logs.txt"
+  },
+  "alphabet": [
+    "DELETE",
+    "EDIT",
+    "LOGIN",
+    "LOGOUT",
+    "VIEW"
+  ],
+  "training_sessions": 150,
+  "total_test_sessions": 61,
+  "valid_count": 38,
+  "valid_percent": 62.3,
+  "valid_sessions": [
+    "T002",
+    "T003",
+    "T004",
+    "T005",
+    "T006",
+    "T007",
+    "T008",
+    "T010",
+    "T011",
+    "T017",
+    "T018",
+    "T020",
+    "T021",
+    "T022",
+    "T023",
+    "T024",
+    "T026",
+    "T027",
+    "T029",
+    "T031",
+    "T032",
+    "T034",
+    "T036",
+    "T040",
+    "T041",
+    "T043",
+    "T044",
+    "T045",
+    "T047",
+    "T051",
+    "T052",
+    "T053",
+    "T054",
+    "T055",
+    "T056",
+    "T058",
+    "T059",
+    "T061"
+  ],
+  "flagged_sessions": [
+    {
+      "session_id": "T001",
+      "sequence": [
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T001 INVALID at position 0 (token=LOGOUT): violated rule \"LOGOUT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): insert LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "insert LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T009",
+      "sequence": [
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "EDIT",
+      "explanation": "Session T009 INVALID at position 0 (token=EDIT): violated rule \"EDIT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T012",
+      "sequence": [
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "DELETE",
+      "explanation": "Session T012 INVALID at position 0 (token=DELETE): violated rule \"DELETE starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace DELETE with LOGIN at position 0 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "replace DELETE with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T013",
+      "sequence": [
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "VIEW",
+      "explanation": "Session T013 INVALID at position 0 (token=VIEW): violated rule \"VIEW starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGIN at position 0 (yields: LOGIN -> EDIT -> LOGOUT)",
+      "fix": "replace VIEW with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 4,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T014",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T014 INVALID at position 3 (token=LOGOUT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by LOGOUT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): replace LOGOUT with DELETE at position 2 (yields: LOGIN -> VIEW -> DELETE -> LOGOUT)",
+      "fix": "replace LOGOUT with DELETE at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 10,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T015",
+      "sequence": [
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "VIEW",
+      "explanation": "Session T015 INVALID at position 0 (token=VIEW): violated rule \"VIEW starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGIN at position 0 (yields: LOGIN -> EDIT -> LOGOUT)",
+      "fix": "replace VIEW with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 4,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T016",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "VIEW",
+      "explanation": "Session T016 INVALID at position 3 (token=VIEW) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by VIEW.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove VIEW at position 3 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "remove VIEW at position 3",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 21,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T019",
+      "sequence": [
+        "LOGIN",
+        "LOGOUT",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 2,
+      "failure_token": "EDIT",
+      "explanation": "Session T019 INVALID at position 2 (token=EDIT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by EDIT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove EDIT at position 2 (yields: LOGIN -> LOGOUT)",
+      "fix": "remove EDIT at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 16,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T025",
+      "sequence": [
+        "LOGIN",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "VIEW",
+      "explanation": "Session T025 INVALID at position 1 (token=VIEW) [context: VIEW]: violated rule \"VIEW ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace VIEW with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "VIEW"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T028",
+      "sequence": [
+        "LOGIN"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "LOGIN",
+      "explanation": "Session T028 INVALID at position 0 (token=LOGIN) [context: LOGIN]: violated rule \"LOGIN ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): insert LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "insert LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 14,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "LOGIN"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T030",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT",
+        "DELETE"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "DELETE",
+      "explanation": "Session T030 INVALID at position 3 (token=DELETE) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by DELETE.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove DELETE at position 3 (yields: LOGIN -> DELETE -> LOGOUT)",
+      "fix": "remove DELETE at position 3",
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 21,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T033",
+      "sequence": [
+        "LOGIN",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "VIEW",
+      "explanation": "Session T033 INVALID at position 1 (token=VIEW) [context: VIEW]: violated rule \"VIEW ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace VIEW with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "VIEW"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T035",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "VIEW",
+      "explanation": "Session T035 INVALID at position 3 (token=VIEW) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by VIEW.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove VIEW at position 3 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "remove VIEW at position 3",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 21,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T037",
+      "sequence": [
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "DELETE",
+      "explanation": "Session T037 INVALID at position 0 (token=DELETE): violated rule \"DELETE starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace DELETE with LOGIN at position 0 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "replace DELETE with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T038",
+      "sequence": [
+        "LOGIN",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "EDIT",
+      "explanation": "Session T038 INVALID at position 1 (token=EDIT) [context: EDIT]: violated rule \"EDIT ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 8,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "EDIT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T039",
+      "sequence": [
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "VIEW",
+      "explanation": "Session T039 INVALID at position 0 (token=VIEW): violated rule \"VIEW starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGIN at position 0 (yields: LOGIN -> EDIT -> LOGOUT)",
+      "fix": "replace VIEW with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 4,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T042",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T042 INVALID at position 3 (token=LOGOUT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by LOGOUT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): replace LOGOUT with DELETE at position 2 (yields: LOGIN -> VIEW -> DELETE -> LOGOUT)",
+      "fix": "replace LOGOUT with DELETE at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 10,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T046",
+      "sequence": [
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T046 INVALID at position 0 (token=LOGOUT): violated rule \"LOGOUT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): insert LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "insert LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T048",
+      "sequence": [
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "EDIT",
+      "explanation": "Session T048 INVALID at position 0 (token=EDIT): violated rule \"EDIT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T049",
+      "sequence": [
+        "LOGIN",
+        "LOGOUT",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 2,
+      "failure_token": "EDIT",
+      "explanation": "Session T049 INVALID at position 2 (token=EDIT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by EDIT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove EDIT at position 2 (yields: LOGIN -> LOGOUT)",
+      "fix": "remove EDIT at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 16,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T050",
+      "sequence": [
+        "LOGIN",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "EDIT",
+      "explanation": "Session T050 INVALID at position 1 (token=EDIT) [context: EDIT]: violated rule \"EDIT ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 8,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "EDIT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T057",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T057 INVALID at position 3 (token=LOGOUT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by LOGOUT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): replace LOGOUT with DELETE at position 2 (yields: LOGIN -> VIEW -> DELETE -> LOGOUT)",
+      "fix": "replace LOGOUT with DELETE at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 10,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T060",
+      "sequence": [
+        "LOGIN",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "VIEW",
+      "explanation": "Session T060 INVALID at position 1 (token=VIEW) [context: VIEW]: violated rule \"VIEW ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace VIEW with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "VIEW"
+      ],
+      "additional_violations": []
+    }
+  ],
+  "session_records": [
+    {
+      "session_id": "T001",
+      "sequence": [
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T001 INVALID at position 0 (token=LOGOUT): violated rule \"LOGOUT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): insert LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "insert LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T002",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T003",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T004",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T005",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T006",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T007",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T008",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T009",
+      "sequence": [
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "EDIT",
+      "explanation": "Session T009 INVALID at position 0 (token=EDIT): violated rule \"EDIT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T010",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T011",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T012",
+      "sequence": [
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "DELETE",
+      "explanation": "Session T012 INVALID at position 0 (token=DELETE): violated rule \"DELETE starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace DELETE with LOGIN at position 0 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "replace DELETE with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T013",
+      "sequence": [
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "VIEW",
+      "explanation": "Session T013 INVALID at position 0 (token=VIEW): violated rule \"VIEW starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGIN at position 0 (yields: LOGIN -> EDIT -> LOGOUT)",
+      "fix": "replace VIEW with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 4,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T014",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T014 INVALID at position 3 (token=LOGOUT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by LOGOUT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): replace LOGOUT with DELETE at position 2 (yields: LOGIN -> VIEW -> DELETE -> LOGOUT)",
+      "fix": "replace LOGOUT with DELETE at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 10,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T015",
+      "sequence": [
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "VIEW",
+      "explanation": "Session T015 INVALID at position 0 (token=VIEW): violated rule \"VIEW starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGIN at position 0 (yields: LOGIN -> EDIT -> LOGOUT)",
+      "fix": "replace VIEW with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 4,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T016",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "VIEW",
+      "explanation": "Session T016 INVALID at position 3 (token=VIEW) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by VIEW.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove VIEW at position 3 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "remove VIEW at position 3",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 21,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T017",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T018",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T019",
+      "sequence": [
+        "LOGIN",
+        "LOGOUT",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 2,
+      "failure_token": "EDIT",
+      "explanation": "Session T019 INVALID at position 2 (token=EDIT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by EDIT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove EDIT at position 2 (yields: LOGIN -> LOGOUT)",
+      "fix": "remove EDIT at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 16,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T020",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T021",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T022",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T023",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T024",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T025",
+      "sequence": [
+        "LOGIN",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "VIEW",
+      "explanation": "Session T025 INVALID at position 1 (token=VIEW) [context: VIEW]: violated rule \"VIEW ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace VIEW with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "VIEW"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T026",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T027",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T028",
+      "sequence": [
+        "LOGIN"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "LOGIN",
+      "explanation": "Session T028 INVALID at position 0 (token=LOGIN) [context: LOGIN]: violated rule \"LOGIN ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): insert LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "insert LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 14,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "LOGIN"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T029",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T030",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT",
+        "DELETE"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "DELETE",
+      "explanation": "Session T030 INVALID at position 3 (token=DELETE) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by DELETE.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove DELETE at position 3 (yields: LOGIN -> DELETE -> LOGOUT)",
+      "fix": "remove DELETE at position 3",
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 21,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T031",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T032",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T033",
+      "sequence": [
+        "LOGIN",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "VIEW",
+      "explanation": "Session T033 INVALID at position 1 (token=VIEW) [context: VIEW]: violated rule \"VIEW ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace VIEW with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "VIEW"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T034",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T035",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "VIEW",
+      "explanation": "Session T035 INVALID at position 3 (token=VIEW) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by VIEW.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove VIEW at position 3 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "remove VIEW at position 3",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 21,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T036",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T037",
+      "sequence": [
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "DELETE",
+      "explanation": "Session T037 INVALID at position 0 (token=DELETE): violated rule \"DELETE starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace DELETE with LOGIN at position 0 (yields: LOGIN -> VIEW -> LOGOUT)",
+      "fix": "replace DELETE with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T038",
+      "sequence": [
+        "LOGIN",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "EDIT",
+      "explanation": "Session T038 INVALID at position 1 (token=EDIT) [context: EDIT]: violated rule \"EDIT ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 8,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "EDIT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T039",
+      "sequence": [
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "VIEW",
+      "explanation": "Session T039 INVALID at position 0 (token=VIEW): violated rule \"VIEW starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGIN at position 0 (yields: LOGIN -> EDIT -> LOGOUT)",
+      "fix": "replace VIEW with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 4,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T040",
+      "sequence": [
+        "LOGIN",
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "DELETE",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T041",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T042",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T042 INVALID at position 3 (token=LOGOUT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by LOGOUT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): replace LOGOUT with DELETE at position 2 (yields: LOGIN -> VIEW -> DELETE -> LOGOUT)",
+      "fix": "replace LOGOUT with DELETE at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 10,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T043",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T044",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T045",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T046",
+      "sequence": [
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T046 INVALID at position 0 (token=LOGOUT): violated rule \"LOGOUT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): insert LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "insert LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T047",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T048",
+      "sequence": [
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 0,
+      "failure_token": "EDIT",
+      "explanation": "Session T048 INVALID at position 0 (token=EDIT): violated rule \"EDIT starts only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGIN). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGIN at position 0 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGIN at position 0",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 3,
+      "fix_validates": true,
+      "rule_type": "start",
+      "context": [],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T049",
+      "sequence": [
+        "LOGIN",
+        "LOGOUT",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 2,
+      "failure_token": "EDIT",
+      "explanation": "Session T049 INVALID at position 2 (token=EDIT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by EDIT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): remove EDIT at position 2 (yields: LOGIN -> LOGOUT)",
+      "fix": "remove EDIT at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 16,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T050",
+      "sequence": [
+        "LOGIN",
+        "EDIT"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "EDIT",
+      "explanation": "Session T050 INVALID at position 1 (token=EDIT) [context: EDIT]: violated rule \"EDIT ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace EDIT with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace EDIT with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 8,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "EDIT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T051",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T052",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T053",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T054",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T055",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T056",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T057",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT",
+        "LOGOUT"
+      ],
+      "status": "flagged",
+      "failure_index": 3,
+      "failure_token": "LOGOUT",
+      "explanation": "Session T057 INVALID at position 3 (token=LOGOUT) [context: LOGOUT]: violated rule \"LOGOUT is a terminal event (ends 100.0% of training sessions) but is followed by LOGOUT.\" (expected one of: none). Minimal fix (cost 1, guaranteed minimum within search budget): replace LOGOUT with DELETE at position 2 (yields: LOGIN -> VIEW -> DELETE -> LOGOUT)",
+      "fix": "replace LOGOUT with DELETE at position 2",
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "DELETE",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 10,
+      "fix_validates": true,
+      "rule_type": "terminal",
+      "context": [
+        "LOGOUT"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T058",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T059",
+      "sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "EDIT",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    },
+    {
+      "session_id": "T060",
+      "sequence": [
+        "LOGIN",
+        "VIEW"
+      ],
+      "status": "flagged",
+      "failure_index": 1,
+      "failure_token": "VIEW",
+      "explanation": "Session T060 INVALID at position 1 (token=VIEW) [context: VIEW]: violated rule \"VIEW ends only 0.0% of training sessions (threshold 70%).\" (expected one of: LOGOUT). Minimal fix (cost 1, guaranteed minimum within search budget): replace VIEW with LOGOUT at position 1 (yields: LOGIN -> LOGOUT)",
+      "fix": "replace VIEW with LOGOUT at position 1",
+      "repaired_sequence": [
+        "LOGIN",
+        "LOGOUT"
+      ],
+      "repair_cost": 1,
+      "repair_explored_candidates": 9,
+      "fix_validates": true,
+      "rule_type": "end",
+      "context": [
+        "VIEW"
+      ],
+      "additional_violations": []
+    },
+    {
+      "session_id": "T061",
+      "sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "status": "valid",
+      "failure_index": null,
+      "failure_token": null,
+      "rule_type": null,
+      "violated_rule": null,
+      "context": [],
+      "repaired_sequence": [
+        "LOGIN",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "VIEW",
+        "LOGOUT"
+      ],
+      "repair_cost": 0,
+      "repair_explored_candidates": 0,
+      "fix_validates": true,
+      "fix": "No repair needed.",
+      "additional_violations": []
+    }
+  ],
+  "evaluation_metrics": [
+    {
+      "method": "Hardcoded Baseline (4 rules)",
+      "tp": 23,
+      "fp": 0,
+      "tn": 31,
+      "fn": 7,
+      "accuracy": 0.8852459016393442,
+      "precision": 1.0,
+      "recall": 0.7666666666666667,
+      "f1": 0.8679245283018869
+    },
+    {
+      "method": "Inferred Grammar / Automaton",
+      "tp": 23,
+      "fp": 0,
+      "tn": 31,
+      "fn": 7,
+      "accuracy": 0.8852459016393442,
+      "precision": 1.0,
+      "recall": 0.7666666666666667,
+      "f1": 0.8679245283018869
+    }
+  ]
+}

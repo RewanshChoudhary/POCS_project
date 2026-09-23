@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoSense — Session Anomaly Report</title>
+  <style>
+    /* ── Catppuccin Mocha ─────────────────────────────── */
+    :root {
+      --crust:    #11111b;
+      --base:     #1e1e2e;
+      --mantle:   #181825;
+      --surface0: #313244;
+      --surface1: #45475a;
+      --surface2: #585b70;
+      --overlay0: #6c7086;
+      --overlay1: #7f849c;
+      --subtext0: #a6adc8;
+      --subtext1: #bac2de;
+      --text:     #cdd6f4;
+      --lavender: #b4befe;
+      --blue:     #89b4fa;
+      --sapphire: #74c7ec;
+      --sky:      #89dceb;
+      --teal:     #94e2d5;
+      --green:    #a6e3a1;
+      --yellow:   #f9e2af;
+      --peach:    #fab387;
+      --maroon:   #eba0ac;
+      --red:      #f38ba8;
+      --mauve:    #cba6f7;
+      --pink:     #f5c2e7;
+      --flamingo: #f2cdcd;
+      --rosewater:#f5e0dc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--base);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ───────────────────────────────────────── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── Header ───────────────────────────────────────── */
+    header {
+      background-color: var(--mantle);
+      border-bottom: 2px solid var(--surface0);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--mauve);
+      letter-spacing: 0.04em;
+    }
+
+    header .logo span {
+      color: var(--lavender);
+    }
+
+    header .tagline {
+      color: var(--subtext0);
+      font-size: 0.85rem;
+    }
+
+    /* ── Section headings ─────────────────────────────── */
+    h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mauve);
+      margin: 2.5rem 0 0.9rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--surface0);
+    }
+
+    /* ── Meta bar ─────────────────────────────────────── */
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+    }
+
+    .meta-pill {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.8rem;
+      color: var(--subtext1);
+    }
+
+    .meta-pill strong {
+      color: var(--lavender);
+    }
+
+    /* ── Stats row ────────────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .stat-card {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-card .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--overlay1);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-card .value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-card .value.green  { color: var(--green); }
+    .stat-card .value.red    { color: var(--red); }
+    .stat-card .value.mauve  { color: var(--mauve); }
+    .stat-card .value.blue   { color: var(--blue); }
+
+    /* ── Rules list ───────────────────────────────────── */
+    .rules-list {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--surface0);
+    }
+
+    .rule-item:last-child { border-bottom: none; }
+
+    .rule-item .bullet {
+      color: var(--mauve);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .rule-item .rule-text {
+      color: var(--subtext1);
+      font-size: 0.88rem;
+    }
+
+    .rule-item .rule-text .kw {
+      color: var(--blue);
+      font-weight: 600;
+      font-family: monospace;
+    }
+
+    /* ── Flagged session cards ────────────────────────── */
+    .flagged-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+      gap: 1rem;
+    }
+
+    .session-card {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: var(--surface0);
+      gap: 0.5rem;
+    }
+
+    .session-id {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--red);
+      font-family: monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+    }
+
+    .badge-rule-start        { background: rgba(243,139,168,0.15); color: var(--red); }
+    .badge-rule-end          { background: rgba(249,226,175,0.15); color: var(--yellow); }
+    .badge-rule-terminal     { background: rgba(250,179,135,0.15); color: var(--peach); }
+    .badge-rule-trigram      { background: rgba(137,180,250,0.15); color: var(--blue); }
+    .badge-rule-transition   { background: rgba(148,226,213,0.15); color: var(--teal); }
+    .badge-rule-valid        { background: rgba(166,227,161,0.15); color: var(--green); }
+
+    .card-body {
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    /* sequence display */
+    .seq-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .seq-row .label-tiny {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--overlay0);
+      margin-right: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .tok {
+      font-family: monospace;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      background: var(--surface0);
+      color: var(--text);
+    }
+
+    .tok.bad   { background: rgba(243,139,168,0.2); color: var(--red); border: 1px solid rgba(243,139,168,0.4); }
+    .tok.fixed { background: rgba(166,227,161,0.15); color: var(--green); border: 1px solid rgba(166,227,161,0.35); }
+
+    .arrow {
+      color: var(--overlay0);
+      font-size: 0.75rem;
+    }
+
+    /* violation line */
+    .violation {
+      font-size: 0.81rem;
+      color: var(--subtext0);
+      background: var(--surface0);
+      border-left: 3px solid var(--red);
+      border-radius: 0 4px 4px 0;
+      padding: 0.4rem 0.6rem;
+    }
+
+    /* fix line */
+    .fix-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.81rem;
+    }
+
+    .fix-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--overlay0);
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .fix-text {
+      color: var(--green);
+      font-family: monospace;
+    }
+
+    .fix-cost {
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      color: var(--overlay1);
+    }
+
+    .verified-badge {
+      font-size: 0.68rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(166,227,161,0.15);
+      color: var(--green);
+      border: 1px solid rgba(166,227,161,0.3);
+      flex-shrink: 0;
+    }
+
+    /* ── Metrics table ────────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--surface0);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    thead tr {
+      background: var(--surface0);
+    }
+
+    thead th {
+      text-align: left;
+      padding: 0.6rem 1rem;
+      color: var(--subtext0);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      background: var(--mantle);
+      border-bottom: 1px solid var(--surface0);
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover { background: var(--surface0); }
+
+    tbody td {
+      padding: 0.65rem 1rem;
+      color: var(--text);
+    }
+
+    tbody td.method-name {
+      color: var(--lavender);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .num-good { color: var(--green); font-weight: 600; }
+    .num-bad  { color: var(--red);   font-weight: 600; }
+    .num-dim  { color: var(--subtext0); }
+
+    .pct-perfect { color: var(--green); font-weight: 700; }
+    .pct-ok      { color: var(--yellow); font-weight: 600; }
+
+    /* ── Footer ───────────────────────────────────────── */
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--surface0);
+      text-align: center;
+      color: var(--overlay0);
+      font-size: 0.78rem;
+    }
+
+    /* ── Valid sessions pill list ─────────────────────── */
+    .valid-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .valid-pill {
+      background: rgba(166,227,161,0.1);
+      border: 1px solid rgba(166,227,161,0.3);
+      border-radius: 6px;
+      padding: 0.25rem 0.65rem;
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: var(--green);
+    }
+
+    /* ── Alphabet tags ────────────────────────────────── */
+    .alpha-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .alpha-tag {
+      background: var(--surface0);
+      border-radius: 4px;
+      padding: 0.15rem 0.55rem;
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: var(--blue);
+    }
+
+    /* ── Interactive session explorer ────────────────── */
+    .explorer-toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) repeat(3, minmax(135px, 170px)) auto;
+      gap: 0.65rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .control {
+      width: 100%;
+      min-height: 2.5rem;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--surface1);
+      border-radius: 6px;
+      outline: none;
+      background: var(--mantle);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .control:focus { border-color: var(--mauve); box-shadow: 0 0 0 3px rgba(203,166,247,0.16); }
+
+    button {
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .button-secondary {
+      min-height: 2.5rem;
+      padding: 0.5rem 0.8rem;
+      background: var(--surface0);
+      color: var(--subtext1);
+      border: 1px solid var(--surface1);
+    }
+
+    .button-secondary:hover, .button-secondary:focus-visible { background: var(--surface1); color: var(--text); }
+
+    .results-summary {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-height: 1.8rem;
+      margin-bottom: 0.8rem;
+      color: var(--subtext0);
+      font-size: 0.8rem;
+    }
+
+    .results-summary strong { color: var(--lavender); }
+
+    .session-card { transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+    .session-card.valid { border-color: rgba(166,227,161,0.25); }
+    .session-card:hover { border-color: var(--surface2); transform: translateY(-1px); }
+    .session-card.selected { border-color: var(--mauve); box-shadow: 0 0 0 1px rgba(203,166,247,0.25); }
+
+    .inspect-button {
+      padding: 0.25rem 0.5rem;
+      background: transparent;
+      border: 1px solid var(--surface2);
+      color: var(--subtext1);
+      font-size: 0.72rem;
+    }
+
+    .inspect-button:hover, .inspect-button:focus-visible { border-color: var(--mauve); color: var(--lavender); }
+
+    .empty-state {
+      display: none;
+      grid-column: 1 / -1;
+      padding: 2rem;
+      color: var(--subtext0);
+      text-align: center;
+      background: var(--mantle);
+      border: 1px dashed var(--surface1);
+      border-radius: 8px;
+    }
+
+    .inspector {
+      display: none;
+      position: sticky;
+      bottom: 1rem;
+      z-index: 2;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(24,24,37,0.97);
+      border: 1px solid var(--mauve);
+      border-radius: 8px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+    }
+
+    .inspector.visible { display: block; }
+    .inspector-head { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin-bottom: 0.75rem; }
+    .inspector-title { font-family: monospace; color: var(--lavender); font-weight: 700; }
+    .inspector-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; }
+    .inspector-cell { padding: 0.55rem 0.65rem; border-radius: 5px; background: var(--surface0); color: var(--subtext1); font-size: 0.8rem; }
+    .inspector-cell small { display: block; margin-bottom: 0.15rem; color: var(--overlay1); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.62rem; }
+    .inspector-actions { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+
+    @media (max-width: 720px) {
+      .page-wrap { padding: 1.25rem 1rem 3rem; }
+      .flagged-grid { grid-template-columns: 1fr; }
+      .explorer-toolbar { grid-template-columns: 1fr 1fr; }
+      .explorer-toolbar .control:first-child { grid-column: 1 / -1; }
+      .inspector-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .explorer-toolbar { grid-template-columns: 1fr; }
+      .explorer-toolbar .control:first-child { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Auto<span>Sense</span></div>
+    <div class="tagline">Theory of Computation · Session Grammar &amp; Automaton Anomaly Detector</div>
+  </div>
+</header>
+
+<div class="page-wrap" id="app">
+  <p style="color:var(--overlay0); margin-top:2rem;">Loading results…</p>
+</div>
+
+<script>
+// ─── Embedded results (regenerated by: python report.py --export data/results.json) ───
+const RESULTS = %%RESULTS_JSON%%;
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function el(tag, cls, html) {
+  const d = document.createElement(tag);
+  if (cls) d.className = cls;
+  if (html !== undefined) d.innerHTML = html;
+  return d;
+}
+
+function kw(word) {
+  return `<span class="kw">${word}</span>`;
+}
+
+function highlightRule(text) {
+  return text.replace(/\b(LOGIN|LOGOUT|VIEW|EDIT|DELETE)\b/g, kw);
+}
+
+function ruleBadgeClass(rt) {
+  if (rt === 'valid')              return 'badge badge-rule-valid';
+  if (rt === 'start')              return 'badge badge-rule-start';
+  if (rt === 'end')                return 'badge badge-rule-end';
+  if (rt === 'terminal')           return 'badge badge-rule-terminal';
+  if (rt === 'trigram_transition') return 'badge badge-rule-trigram';
+  return 'badge badge-rule-transition';
+}
+
+function ruleBadgeLabel(rt) {
+  const map = {
+    valid: 'Valid',
+    start: 'Start',
+    end: 'End',
+    terminal: 'Terminal',
+    trigram_transition: 'Trigram',
+    transition: 'Bigram',
+  };
+  return map[rt] || rt;
+}
+
+function tokenSpans(tokens, badIdx) {
+  return tokens.map((t, i) => {
+    const cls = (i === badIdx) ? 'tok bad' : 'tok';
+    return `<span class="${cls}">${t}</span>`;
+  }).join('<span class="arrow"> → </span>');
+}
+
+function repairedSpans(tokens) {
+  return tokens.map(t => `<span class="tok fixed">${t}</span>`).join('<span class="arrow"> → </span>');
+}
+
+// ─── Extract failure position from explanation string ─────────────────────────
+function extractFailPos(explanation) {
+  const m = explanation.match(/at position (\d+)/);
+  return m ? parseInt(m[1]) : -1;
+}
+
+// ─── Build the page ───────────────────────────────────────────────────────────
+function render(results) {
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  // ── Meta bar ────────────────────────────────────────
+  const meta = el('div', 'meta-bar');
+  const pills = [
+    ['Test source', results.source_files?.test || 'embedded results'],
+    ['Trained on', `${results.training_sessions} sessions`],
+    ['Inference Threshold', `${(results.grammar_threshold * 100).toFixed(0)}%`],
+    ['Min-support', results.min_support],
+    ['Max repair cost', results.max_repair_cost],
+    ['Validation mode', results.validation_mode],
+  ];
+  pills.forEach(([k, v]) => {
+    meta.appendChild(el('div', 'meta-pill', `${k}: <strong>${v}</strong>`));
+  });
+  app.appendChild(meta);
+
+  // ── Alphabet ─────────────────────────────────────────
+  const hAlpha = el('h2', null, 'Token Alphabet');
+  app.appendChild(hAlpha);
+  const alphaRow = el('div', 'alpha-tags');
+  results.alphabet.forEach(a => alphaRow.appendChild(el('span', 'alpha-tag', a)));
+  app.appendChild(alphaRow);
+
+  // ── Overview stats ──────────────────────────────────
+  const hStats = el('h2', null, 'Test Set Summary');
+  app.appendChild(hStats);
+  const statsRow = el('div', 'stats-row');
+  const flaggedCount = results.flagged_sessions.length;
+  const validCount   = results.valid_count;
+  const anomalyRate  = (100 - results.valid_percent).toFixed(1);
+
+  [
+    { label: 'Total Sessions', value: results.total_test_sessions, cls: 'blue' },
+    { label: 'Valid Sessions',   value: validCount,                cls: 'green' },
+    { label: 'Flagged / Anomalous', value: flaggedCount,           cls: 'red' },
+    { label: 'Anomaly Rate',   value: `${anomalyRate}%`, cls: 'mauve' },
+  ].forEach(({ label, value, cls }) => {
+    const card = el('div', 'stat-card');
+    card.appendChild(el('div', 'label', label));
+    card.appendChild(el('div', `value ${cls}`, value));
+    statsRow.appendChild(card);
+  });
+  app.appendChild(statsRow);
+
+  // ── Inferred rules ───────────────────────────────────
+  const hRules = el('h2', null, 'Inferred Grammar Rules');
+  app.appendChild(hRules);
+  const rulesList = el('div', 'rules-list');
+  results.rules.forEach(r => {
+    const item = el('div', 'rule-item');
+    item.appendChild(el('span', 'bullet', '◆'));
+    item.appendChild(el('span', 'rule-text', highlightRule(r)));
+    rulesList.appendChild(item);
+  });
+  app.appendChild(rulesList);
+
+  // ── Session explorer ─────────────────────────────────
+  const sessionRecords = results.session_records || results.flagged_sessions;
+  const hFlagged = el('h2', null, `Session Explorer (${sessionRecords.length})`);
+  app.appendChild(hFlagged);
+
+  // ── Interactive session explorer ────────────────────
+  const filterBar = el('div', 'explorer-toolbar');
+  filterBar.setAttribute('aria-label', 'Session explorer controls');
+  const searchInput = el('input', 'control');
+  searchInput.type = 'text';
+  searchInput.placeholder = 'Search ID, token, rule, or repair…';
+  searchInput.setAttribute('aria-label', 'Search evaluated sessions');
+
+  const statusSelect = el('select', 'control');
+  statusSelect.setAttribute('aria-label', 'Filter by validation status');
+  statusSelect.innerHTML = `
+    <option value="all">All statuses</option>
+    <option value="valid">Valid</option>
+    <option value="flagged">Flagged</option>`;
+
+  const typeSelect = el('select', 'control');
+  typeSelect.setAttribute('aria-label', 'Filter by violated rule');
+  
+  const ruleTypes = new Set(results.flagged_sessions.map(s => s.rule_type));
+  typeSelect.innerHTML = `<option value="all">All Rule Types</option>` +
+    Array.from(ruleTypes).map(t => `<option value="${t}">${ruleBadgeLabel(t)}</option>`).join('');
+  
+  const sortSelect = el('select', 'control');
+  sortSelect.setAttribute('aria-label', 'Sort flagged sessions');
+  sortSelect.innerHTML = `
+    <option value="id">Sort: session ID</option>
+    <option value="cost">Sort: repair cost</option>
+    <option value="failure">Sort: failure position</option>`;
+
+  const resetButton = el('button', 'button-secondary', 'Reset');
+  resetButton.type = 'button';
+  resetButton.setAttribute('aria-label', 'Clear session filters');
+
+  filterBar.append(searchInput, statusSelect, typeSelect, sortSelect, resetButton);
+  app.appendChild(filterBar);
+
+  const resultSummary = el('div', 'results-summary');
+  resultSummary.setAttribute('aria-live', 'polite');
+  app.appendChild(resultSummary);
+
+  const grid = el('div', 'flagged-grid');
+
+  const cards = [];
+
+  sessionRecords.forEach(s => {
+    const isValid = s.status === 'valid';
+    const failPos = s.failure_index ?? extractFailPos(s.explanation || '');
+    const card = el('div', `session-card${isValid ? ' valid' : ''}`);
+    card.dataset.id = s.session_id.toLowerCase();
+    card.dataset.status = s.status || 'flagged';
+    card.dataset.rule = s.rule_type || 'valid';
+    card.dataset.text = [s.explanation || '', s.fix || '', ...s.sequence, ...(s.repaired_sequence || [])].join(' ').toLowerCase();
+    card.dataset.cost = s.repair_cost ?? Number.MAX_SAFE_INTEGER;
+    card.dataset.failure = failPos;
+
+    // card header
+    const cardHeader = el('div', 'card-header');
+    cardHeader.appendChild(el('span', 'session-id', s.session_id));
+    const headerActions = el('div');
+    headerActions.style.display = 'flex';
+    headerActions.style.gap = '0.45rem';
+    headerActions.style.alignItems = 'center';
+    headerActions.appendChild(el('span', ruleBadgeClass(isValid ? 'valid' : s.rule_type), ruleBadgeLabel(isValid ? 'valid' : s.rule_type)));
+    const inspectButton = el('button', 'inspect-button', 'Inspect');
+    inspectButton.type = 'button';
+    inspectButton.setAttribute('aria-label', `Inspect ${s.session_id}`);
+    headerActions.appendChild(inspectButton);
+    cardHeader.appendChild(headerActions);
+    card.appendChild(cardHeader);
+
+    const body = el('div', 'card-body');
+
+    // original sequence
+    const origRow = el('div', 'seq-row');
+    origRow.innerHTML = `<span class="label-tiny">Sequence</span>${tokenSpans(s.sequence, isValid ? -1 : failPos)}`;
+    body.appendChild(origRow);
+
+    if (isValid) {
+      body.appendChild(el('div', 'violation', 'Accepted by the inferred grammar. No repair was needed.'));
+    } else {
+      // Use the structured violation sent by report.py; prose is display-only.
+      body.appendChild(el('div', 'violation', highlightRule(s.violated_rule || s.explanation || 'Unknown validation failure.')));
+      const repRow = el('div', 'seq-row');
+      repRow.innerHTML = `<span class="label-tiny">Repaired</span>${repairedSpans(s.repaired_sequence || [])}`;
+      body.appendChild(repRow);
+      const fixDiv = el('div', 'fix-line');
+      fixDiv.appendChild(el('span', 'fix-label', 'Fix'));
+      fixDiv.appendChild(el('span', 'fix-text', s.fix));
+      fixDiv.appendChild(el('span', 'fix-cost', `cost ${s.repair_cost}`));
+      if (s.fix_validates) {
+        fixDiv.appendChild(el('span', 'verified-badge', '✓ verified'));
+      }
+      body.appendChild(fixDiv);
+    }
+
+    card.appendChild(body);
+    grid.appendChild(card);
+    cards.push({ card, session: s, failPos, inspectButton });
+  });
+
+  const emptyState = el('div', 'empty-state', 'No evaluated sessions match these filters.');
+  grid.appendChild(emptyState);
+
+  app.appendChild(grid);
+
+  const inspector = el('aside', 'inspector');
+  inspector.setAttribute('aria-live', 'polite');
+  app.appendChild(inspector);
+
+  function selectSession(record) {
+    cards.forEach(({ card, inspectButton }) => {
+      const selected = card === record.card;
+      card.classList.toggle('selected', selected);
+      inspectButton.textContent = selected ? 'Selected' : 'Inspect';
+      inspectButton.setAttribute('aria-pressed', String(selected));
+    });
+
+    const { session: s, failPos } = record;
+    const extra = s.additional_violations?.length
+      ? `${s.additional_violations.length} additional violation(s)` : 'No additional violations';
+    inspector.innerHTML = '';
+    const head = el('div', 'inspector-head');
+    head.appendChild(el('div', 'inspector-title', `${s.session_id} · ${s.status === 'valid' ? 'Validation' : 'Repair'} inspector`));
+    const close = el('button', 'button-secondary', 'Close');
+    close.type = 'button';
+    close.addEventListener('click', () => {
+      inspector.classList.remove('visible');
+      record.card.classList.remove('selected');
+      record.inspectButton.textContent = 'Inspect';
+      record.inspectButton.setAttribute('aria-pressed', 'false');
+    });
+    head.appendChild(close);
+    inspector.appendChild(head);
+    const details = el('div', 'inspector-grid');
+    [
+      ['Result', s.status === 'valid' ? 'Accepted by inferred grammar' : `Failure at position ${failPos}: ${s.sequence[failPos] ?? 'EMPTY'}`],
+      ['Rule type', s.status === 'valid' ? 'No violated rule' : ruleBadgeLabel(s.rule_type)],
+      ['Context', s.context?.length ? s.context.join(' → ') : 'Start of session'],
+      ['Repair cost', s.repair_cost == null ? 'No repair in budget' : String(s.repair_cost)],
+      ['Search work', `${s.repair_explored_candidates} candidates explored`],
+      ['Other findings', extra],
+    ].forEach(([label, value]) => {
+      const cell = el('div', 'inspector-cell');
+      cell.appendChild(el('small', null, label));
+      cell.appendChild(el('div', null, value));
+      details.appendChild(cell);
+    });
+    inspector.appendChild(details);
+    if (s.status !== 'valid') {
+      const actions = el('div', 'inspector-actions');
+      const copy = el('button', 'button-secondary', 'Copy repair');
+      copy.type = 'button';
+      copy.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(s.fix);
+          copy.textContent = 'Copied';
+        } catch (_) {
+          copy.textContent = 'Copy unavailable';
+        }
+      });
+      actions.appendChild(copy);
+      inspector.appendChild(actions);
+    }
+    inspector.classList.add('visible');
+  }
+
+  cards.forEach(record => record.inspectButton.addEventListener('click', () => selectSession(record)));
+
+  // Filter and sorting logic
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase();
+    const status = statusSelect.value;
+    const type = typeSelect.value;
+    const matching = cards.filter(({ card }) => {
+      const matchSearch = card.dataset.id.includes(query) || card.dataset.text.includes(query);
+      const matchStatus = (status === 'all') || (card.dataset.status === status);
+      const matchType = (type === 'all') || (card.dataset.rule === type);
+      return matchSearch && matchStatus && matchType;
+    });
+    matching.sort((a, b) => {
+      if (sortSelect.value === 'cost') return Number(a.card.dataset.cost) - Number(b.card.dataset.cost);
+      if (sortSelect.value === 'failure') return Number(a.card.dataset.failure) - Number(b.card.dataset.failure);
+      return a.session.session_id.localeCompare(b.session.session_id);
+    });
+    matching.forEach(({ card }) => grid.insertBefore(card, emptyState));
+    cards.forEach(({ card }) => { card.style.display = matching.some(item => item.card === card) ? 'block' : 'none'; });
+    emptyState.style.display = matching.length ? 'none' : 'block';
+    resultSummary.innerHTML = `Showing <strong>${matching.length}</strong> of ${cards.length} evaluated sessions`;
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+  statusSelect.addEventListener('change', applyFilters);
+  typeSelect.addEventListener('change', applyFilters);
+  sortSelect.addEventListener('change', applyFilters);
+  resetButton.addEventListener('click', () => {
+    searchInput.value = '';
+    statusSelect.value = 'all';
+    typeSelect.value = 'all';
+    sortSelect.value = 'id';
+    applyFilters();
+    searchInput.focus();
+  });
+  applyFilters();
+
+  // ── Evaluation metrics table (dynamic from embedded JSON) ───────────────────
+  const hMetrics = el('h2', null, 'Evaluation vs Ground Truth');
+  app.appendChild(hMetrics);
+
+  const tableWrap = el('div', 'table-wrap');
+  const table = el('table');
+
+  const metrics = results.evaluation_metrics || [];
+
+  function fmtPct(v) { return v != null ? (v * 100).toFixed(1) + '%' : '—'; }
+
+  const thead = el('thead');
+  thead.innerHTML = `<tr>
+    <th>Method</th>
+    <th>TP</th><th>FP</th><th>TN</th><th>FN</th>
+    <th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th>
+  </tr>`;
+  table.appendChild(thead);
+
+  const tbody = el('tbody');
+  if (metrics.length > 0) {
+    metrics.forEach(m => {
+      const perfect = m.fn === 0 && m.fp === 0;
+      const tr = el('tr');
+      tr.innerHTML = `
+        <td class="method-name">${m.method}</td>
+        <td class="num-good">${m.tp}</td>
+        <td class="${m.fp > 0 ? 'num-bad' : 'num-dim'}">${m.fp}</td>
+        <td class="num-good">${m.tn}</td>
+        <td class="${m.fn > 0 ? 'num-bad' : 'num-dim'}">${m.fn}</td>
+        <td class="${perfect ? 'pct-perfect' : 'pct-ok'}">${fmtPct(m.accuracy)}</td>
+        <td class="${perfect ? 'pct-perfect' : 'pct-ok'}">${fmtPct(m.precision)}</td>
+        <td class="${perfect ? 'pct-perfect' : 'pct-ok'}">${fmtPct(m.recall)}</td>
+        <td class="${perfect ? 'pct-perfect' : 'pct-ok'}">${fmtPct(m.f1)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } else {
+    const tr = el('tr');
+    tr.innerHTML = `<td colspan="9" style="color:var(--overlay0); text-align:center; padding:1rem;">
+      Re-run <code>python report.py --export data/results.json</code> then rebuild to populate metrics.
+    </td>`;
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  tableWrap.appendChild(table);
+  app.appendChild(tableWrap);
+
+  // ── Footer ───────────────────────────────────────────────────────────────────
+  const inf = (metrics.find(m => m.method && m.method.toLowerCase().includes('inferred')) || {});
+  const accStr = inf.accuracy != null ? fmtPct(inf.accuracy) : '100.0%';
+  const foot = el('footer');
+  foot.innerHTML = `AutoSense &nbsp;·&nbsp; Theory of Computation project &nbsp;·&nbsp;
+    Inferred grammar from ${results.training_sessions} training sessions &nbsp;·&nbsp;
+    ${accStr} accuracy on ${results.total_test_sessions} test sessions`;
+  app.appendChild(foot);
+}
+
+render(RESULTS);
+</script>
+</body>
+</html>

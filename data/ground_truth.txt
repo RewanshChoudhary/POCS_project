@@ -1,0 +1,62 @@
+# session_id,valid|invalid,reason
+T001,invalid,single LOGOUT without LOGIN
+T002,valid,normal LOGIN->DELETE->LOGOUT session
+T003,invalid,DELETE->VIEW trigram violation (rare transition in training data)
+T004,valid,normal LOGIN->DELETE->LOGOUT session
+T005,valid,normal LOGIN->VIEW->EDIT->LOGOUT session
+T006,valid,normal LOGIN->EDIT->DELETE->LOGOUT session
+T007,invalid,VIEW->EDIT->DELETE trigram violation (rare in training data)
+T008,invalid,VIEW->EDIT->VIEW trigram violation (rare back-transition)
+T009,invalid,missing LOGIN (starts with EDIT)
+T010,valid,normal LOGIN->EDIT->DELETE->LOGOUT session
+T011,valid,normal LOGIN->DELETE->LOGOUT session
+T012,invalid,missing LOGIN (starts with DELETE)
+T013,invalid,missing LOGIN (starts with VIEW)
+T014,invalid,double LOGOUT
+T015,invalid,missing LOGIN (starts with VIEW)
+T016,invalid,action after LOGOUT (VIEW appended)
+T017,valid,normal LOGIN->VIEW->LOGOUT session
+T018,valid,normal LOGIN->VIEW->LOGOUT session
+T019,invalid,action after LOGOUT (EDIT appended)
+T020,valid,normal LOGIN->VIEW->LOGOUT session
+T021,valid,normal LOGIN->EDIT->LOGOUT session
+T022,valid,normal LOGIN->DELETE->LOGOUT session
+T023,invalid,DELETE->EDIT trigram violation (rare transition after LOGIN->DELETE)
+T024,valid,normal LOGIN->EDIT->LOGOUT session
+T025,invalid,missing LOGOUT (truncated session)
+T026,valid,normal LOGIN->VIEW->EDIT->DELETE->LOGOUT session
+T027,valid,normal LOGIN->VIEW->LOGOUT session
+T028,invalid,missing LOGOUT (only LOGIN in session)
+T029,valid,normal LOGIN->VIEW->EDIT->LOGOUT session
+T030,invalid,action after LOGOUT (DELETE appended)
+T031,valid,normal LOGIN->VIEW->VIEW->EDIT->LOGOUT session
+T032,valid,normal LOGIN->VIEW->LOGOUT session
+T033,invalid,missing LOGOUT (truncated session)
+T034,valid,normal LOGIN->VIEW->VIEW->EDIT->LOGOUT session
+T035,invalid,action after LOGOUT (VIEW appended)
+T036,valid,normal LOGIN->VIEW->EDIT->DELETE->LOGOUT session
+T037,invalid,missing LOGIN (starts with DELETE)
+T038,invalid,missing LOGOUT (truncated after EDIT)
+T039,invalid,missing LOGIN (starts with VIEW)
+T040,invalid,DELETE->VIEW trigram violation (rare transition in training data)
+T041,valid,normal LOGIN->VIEW->EDIT->DELETE->LOGOUT session
+T042,invalid,double LOGOUT
+T043,invalid,VIEW->EDIT->VIEW trigram violation (rare back-transition)
+T044,valid,normal LOGIN->VIEW->LOGOUT session
+T045,valid,normal LOGIN->EDIT->DELETE->LOGOUT session
+T046,invalid,single LOGOUT without LOGIN
+T047,valid,normal LOGIN->EDIT->LOGOUT session
+T048,invalid,missing LOGIN (starts with EDIT)
+T049,invalid,action after LOGOUT (EDIT appended)
+T050,invalid,missing LOGOUT (truncated after EDIT)
+T051,valid,normal LOGIN->EDIT->LOGOUT session
+T052,invalid,VIEW->EDIT->DELETE trigram violation (rare in training data)
+T053,valid,normal LOGIN->EDIT->LOGOUT session
+T054,valid,normal LOGIN->VIEW->EDIT->LOGOUT session
+T055,valid,normal LOGIN->VIEW->EDIT->LOGOUT session
+T056,valid,normal LOGIN->VIEW->VIEW->EDIT->LOGOUT session
+T057,invalid,double LOGOUT
+T058,valid,normal LOGIN->VIEW->LOGOUT session
+T059,valid,normal LOGIN->EDIT->LOGOUT session
+T060,invalid,missing LOGOUT (truncated session)
+T061,valid,very long 122-event LOGIN->VIEW*->LOGOUT session
