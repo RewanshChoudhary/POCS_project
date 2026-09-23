@@ -1,0 +1,714 @@
+# session_id,valid|invalid,reason
+M2_00001,invalid,action after LOGOUT
+M2_00002,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00003,invalid,missing LOGOUT
+M2_00004,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00005,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00006,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00007,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00008,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00009,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00010,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00011,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00012,invalid,missing LOGOUT
+M2_00013,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00014,invalid,action after LOGOUT
+M2_00015,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00016,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00017,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00018,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00019,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00020,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00021,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00022,invalid,missing LOGIN
+M2_00023,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00024,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00025,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00026,invalid,missing LOGIN
+M2_00027,invalid,missing LOGOUT
+M2_00028,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00029,invalid,action after LOGOUT
+M2_00030,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00031,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00032,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00033,invalid,missing LOGOUT
+M2_00034,invalid,missing LOGIN
+M2_00035,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00036,invalid,action after LOGOUT
+M2_00037,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00038,invalid,missing LOGOUT
+M2_00039,invalid,action after LOGOUT
+M2_00040,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00041,invalid,action after LOGOUT
+M2_00042,invalid,missing LOGIN
+M2_00043,invalid,missing LOGOUT
+M2_00044,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00045,invalid,missing LOGOUT
+M2_00046,invalid,missing LOGOUT
+M2_00047,invalid,missing LOGIN
+M2_00048,invalid,missing LOGIN
+M2_00049,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00050,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00051,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00052,invalid,missing LOGIN
+M2_00053,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00054,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00055,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00056,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00057,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00058,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00059,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00060,invalid,missing LOGOUT
+M2_00061,invalid,missing LOGOUT
+M2_00062,invalid,missing LOGIN
+M2_00063,invalid,missing LOGIN
+M2_00064,invalid,action after LOGOUT
+M2_00065,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00066,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00067,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00068,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00069,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00070,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00071,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00072,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00073,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00074,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00075,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00076,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00077,invalid,missing LOGIN
+M2_00078,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00079,invalid,missing LOGOUT
+M2_00080,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00081,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00082,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00083,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00084,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00085,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00086,invalid,action after LOGOUT
+M2_00087,invalid,action after LOGOUT
+M2_00088,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00089,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00090,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00091,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00092,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00093,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00094,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00095,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00096,invalid,missing LOGIN
+M2_00097,invalid,missing LOGIN
+M2_00098,invalid,action after LOGOUT
+M2_00099,invalid,missing LOGOUT
+M2_00100,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00101,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00102,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00103,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00104,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00105,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00106,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00107,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00108,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00109,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00110,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00111,invalid,action after LOGOUT
+M2_00112,invalid,missing LOGIN
+M2_00113,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00114,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00115,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00116,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00117,invalid,action after LOGOUT
+M2_00118,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00119,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00120,invalid,missing LOGIN
+M2_00121,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00122,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00123,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00124,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00125,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00126,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00127,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00128,invalid,action after LOGOUT
+M2_00129,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00130,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00131,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00132,invalid,action after LOGOUT
+M2_00133,invalid,action after LOGOUT
+M2_00134,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00135,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00136,invalid,action after LOGOUT
+M2_00137,invalid,missing LOGOUT
+M2_00138,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00139,invalid,action after LOGOUT
+M2_00140,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00141,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00142,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00143,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00144,invalid,missing LOGOUT
+M2_00145,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00146,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00147,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00148,invalid,missing LOGIN
+M2_00149,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00150,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00151,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00152,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00153,invalid,missing LOGIN
+M2_00154,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00155,invalid,missing LOGIN
+M2_00156,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00157,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00158,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00159,invalid,missing LOGIN
+M2_00160,invalid,missing LOGOUT
+M2_00161,invalid,missing LOGOUT
+M2_00162,invalid,missing LOGIN
+M2_00163,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00164,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00165,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00166,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00167,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00168,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00169,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00170,invalid,action after LOGOUT
+M2_00171,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00172,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00173,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00174,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00175,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00176,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00177,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00178,invalid,missing LOGOUT
+M2_00179,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00180,invalid,action after LOGOUT
+M2_00181,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00182,invalid,missing LOGOUT
+M2_00183,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00184,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00185,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00186,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00187,invalid,missing LOGIN
+M2_00188,invalid,missing LOGOUT
+M2_00189,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00190,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00191,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00192,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00193,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00194,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00195,invalid,action after LOGOUT
+M2_00196,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00197,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00198,invalid,missing LOGOUT
+M2_00199,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00200,invalid,action after LOGOUT
+M2_00201,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00202,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00203,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00204,invalid,action after LOGOUT
+M2_00205,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00206,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00207,invalid,missing LOGOUT
+M2_00208,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00209,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00210,invalid,missing LOGIN
+M2_00211,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00212,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00213,invalid,missing LOGOUT
+M2_00214,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00215,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00216,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00217,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00218,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00219,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00220,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00221,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00222,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00223,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00224,invalid,action after LOGOUT
+M2_00225,invalid,missing LOGIN
+M2_00226,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00227,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00228,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00229,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00230,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00231,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00232,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00233,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00234,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00235,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00236,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00237,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00238,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00239,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00240,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00241,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00242,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00243,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00244,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00245,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00246,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00247,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00248,invalid,action after LOGOUT
+M2_00249,invalid,missing LOGIN
+M2_00250,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00251,invalid,missing LOGOUT
+M2_00252,invalid,missing LOGOUT
+M2_00253,invalid,action after LOGOUT
+M2_00254,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00255,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00256,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00257,invalid,action after LOGOUT
+M2_00258,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00259,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00260,invalid,missing LOGOUT
+M2_00261,invalid,action after LOGOUT
+M2_00262,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00263,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00264,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00265,invalid,missing LOGOUT
+M2_00266,invalid,missing LOGIN
+M2_00267,invalid,action after LOGOUT
+M2_00268,invalid,action after LOGOUT
+M2_00269,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00270,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00271,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00272,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00273,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00274,invalid,missing LOGOUT
+M2_00275,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00276,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00277,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00278,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00279,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00280,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00281,invalid,missing LOGIN
+M2_00282,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00283,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00284,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00285,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00286,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00287,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00288,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00289,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00290,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00291,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00292,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00293,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00294,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00295,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00296,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00297,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00298,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00299,invalid,missing LOGIN
+M2_00300,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00301,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00302,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00303,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00304,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00305,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00306,invalid,missing LOGOUT
+M2_00307,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00308,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00309,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00310,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00311,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00312,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00313,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00314,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00315,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00316,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00317,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00318,invalid,missing LOGIN
+M2_00319,invalid,missing LOGIN
+M2_00320,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00321,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00322,invalid,missing LOGIN
+M2_00323,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00324,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00325,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00326,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00327,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00328,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00329,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00330,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00331,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00332,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00333,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00334,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00335,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00336,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00337,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00338,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00339,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00340,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00341,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00342,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00343,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00344,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00345,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00346,invalid,missing LOGOUT
+M2_00347,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00348,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00349,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00350,invalid,action after LOGOUT
+M2_00351,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00352,invalid,action after LOGOUT
+M2_00353,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00354,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00355,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00356,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00357,invalid,missing LOGOUT
+M2_00358,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00359,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00360,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00361,invalid,missing LOGIN
+M2_00362,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00363,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00364,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00365,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00366,invalid,missing LOGOUT
+M2_00367,invalid,missing LOGIN
+M2_00368,invalid,missing LOGIN
+M2_00369,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00370,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00371,invalid,missing LOGOUT
+M2_00372,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00373,invalid,missing LOGOUT
+M2_00374,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00375,invalid,action after LOGOUT
+M2_00376,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00377,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00378,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00379,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00380,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00381,invalid,action after LOGOUT
+M2_00382,invalid,missing LOGIN
+M2_00383,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00384,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00385,invalid,missing LOGIN
+M2_00386,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00387,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00388,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00389,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00390,invalid,missing LOGOUT
+M2_00391,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00392,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00393,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00394,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00395,invalid,missing LOGOUT
+M2_00396,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00397,invalid,missing LOGIN
+M2_00398,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00399,invalid,missing LOGIN
+M2_00400,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00401,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00402,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00403,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00404,invalid,action after LOGOUT
+M2_00405,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00406,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00407,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00408,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00409,invalid,missing LOGIN
+M2_00410,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00411,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00412,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00413,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00414,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00415,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00416,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00417,invalid,missing LOGOUT
+M2_00418,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00419,invalid,missing LOGIN
+M2_00420,invalid,action after LOGOUT
+M2_00421,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00422,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00423,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00424,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00425,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00426,invalid,action after LOGOUT
+M2_00427,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00428,invalid,missing LOGIN
+M2_00429,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00430,invalid,missing LOGOUT
+M2_00431,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00432,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00433,invalid,action after LOGOUT
+M2_00434,invalid,missing LOGIN
+M2_00435,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00436,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00437,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00438,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00439,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00440,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00441,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00442,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00443,invalid,action after LOGOUT
+M2_00444,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00445,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00446,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00447,invalid,missing LOGIN
+M2_00448,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00449,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00450,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00451,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00452,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00453,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00454,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00455,invalid,missing LOGIN
+M2_00456,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00457,invalid,missing LOGOUT
+M2_00458,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00459,invalid,action after LOGOUT
+M2_00460,invalid,action after LOGOUT
+M2_00461,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00462,invalid,missing LOGOUT
+M2_00463,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00464,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00465,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00466,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00467,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00468,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00469,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00470,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00471,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00472,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00473,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00474,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00475,invalid,action after LOGOUT
+M2_00476,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00477,invalid,missing LOGOUT
+M2_00478,invalid,missing LOGIN
+M2_00479,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00480,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00481,invalid,missing LOGOUT
+M2_00482,invalid,missing LOGIN
+M2_00483,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00484,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00485,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00486,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00487,invalid,missing LOGOUT
+M2_00488,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00489,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00490,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00491,invalid,missing LOGIN
+M2_00492,invalid,missing LOGIN
+M2_00493,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00494,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00495,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00496,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00497,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00498,invalid,action after LOGOUT
+M2_00499,invalid,missing LOGOUT
+M2_00500,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00501,invalid,missing LOGIN
+M2_00502,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00503,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00504,invalid,missing LOGIN
+M2_00505,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00506,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00507,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00508,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00509,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00510,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00511,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00512,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00513,invalid,missing LOGOUT
+M2_00514,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00515,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00516,invalid,missing LOGIN
+M2_00517,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00518,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00519,invalid,action after LOGOUT
+M2_00520,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00521,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00522,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00523,invalid,action after LOGOUT
+M2_00524,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00525,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00526,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00527,invalid,action after LOGOUT
+M2_00528,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00529,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00530,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00531,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00532,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00533,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00534,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00535,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00536,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00537,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00538,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00539,invalid,missing LOGIN
+M2_00540,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00541,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00542,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00543,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00544,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00545,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00546,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00547,invalid,action after LOGOUT
+M2_00548,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00549,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00550,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00551,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00552,invalid,action after LOGOUT
+M2_00553,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00554,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00555,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00556,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00557,invalid,action after LOGOUT
+M2_00558,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00559,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00560,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00561,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00562,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00563,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00564,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00565,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00566,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00567,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00568,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00569,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00570,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00571,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00572,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00573,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00574,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00575,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00576,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00577,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00578,invalid,action after LOGOUT
+M2_00579,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00580,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00581,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00582,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00583,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00584,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00585,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00586,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00587,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00588,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00589,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00590,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00591,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00592,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00593,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00594,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00595,invalid,missing LOGIN
+M2_00596,invalid,missing LOGOUT
+M2_00597,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00598,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00599,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00600,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00601,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00602,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00603,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00604,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00605,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00606,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00607,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00608,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00609,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00610,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00611,invalid,missing LOGOUT
+M2_00612,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00613,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00614,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00615,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00616,invalid,action after LOGOUT
+M2_00617,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00618,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00619,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00620,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00621,invalid,missing LOGIN
+M2_00622,invalid,missing LOGOUT
+M2_00623,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00624,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00625,invalid,action after LOGOUT
+M2_00626,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00627,invalid,missing LOGIN
+M2_00628,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00629,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00630,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00631,invalid,missing LOGOUT
+M2_00632,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00633,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00634,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00635,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00636,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00637,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00638,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00639,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00640,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00641,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00642,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00643,invalid,action after LOGOUT
+M2_00644,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00645,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00646,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00647,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00648,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00649,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00650,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00651,invalid,action after LOGOUT
+M2_00652,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00653,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00654,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00655,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00656,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00657,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00658,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00659,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00660,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00661,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00662,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00663,invalid,action after LOGOUT
+M2_00664,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00665,invalid,missing LOGOUT
+M2_00666,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00667,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00668,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00669,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00670,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00671,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00672,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00673,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00674,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00675,invalid,missing LOGIN
+M2_00676,invalid,missing LOGIN
+M2_00677,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00678,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00679,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00680,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00681,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00682,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00683,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00684,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00685,invalid,action after LOGOUT
+M2_00686,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00687,invalid,missing LOGOUT
+M2_00688,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00689,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00690,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00691,invalid,missing LOGOUT
+M2_00692,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00693,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00694,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00695,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00696,invalid,missing LOGOUT
+M2_00697,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00698,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00699,invalid,missing LOGOUT
+M2_00700,invalid,missing LOGOUT
+M2_00701,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00702,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00703,invalid,action after LOGOUT
+M2_00704,invalid,action after LOGOUT
+M2_00705,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00706,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00707,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00708,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00709,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00710,invalid,missing LOGOUT
+M2_00711,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00712,valid,normal LOGIN->VIEW->LOGOUT session
+M2_00713,valid,normal LOGIN->VIEW->LOGOUT session

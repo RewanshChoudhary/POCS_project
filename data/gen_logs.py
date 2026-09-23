@@ -4,9 +4,11 @@ Generate large synthetic log files for AutoSense.
   data/sample_logs.txt  — 150 valid training sessions  (S001–S150)
   data/test_logs.txt    — 61 test sessions, including one very long session (T001–T061)
   data/ground_truth.txt — answer key for the 61 test sessions
+  data/very_long_logs.txt — optional large parser/performance stress log
 """
 
 from __future__ import annotations
+import argparse
 import random
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -330,7 +332,164 @@ TEST_KINDS = [
 random.shuffle(TEST_KINDS)
 
 
+def generate_very_long_log(session_count: int) -> int:
+    """Write a deterministic large valid log without changing project datasets.
+
+    Each session follows LOGIN -> VIEW -> LOGOUT so this file is useful for
+    parser and pipeline scale demonstrations.  It is deliberately separate
+    from training and evaluation data to avoid changing measured results.
+    """
+    if session_count <= 0:
+        raise ValueError("very-long session count must be positive")
+
+    out_path = Path(__file__).parent / "very_long_logs.txt"
+    current_time = datetime(2024, 3, 1, 8, 0, 0)
+    with out_path.open("w", encoding="utf-8") as handle:
+        for index in range(1, session_count + 1):
+            session_id = f"VL{index:05d}"
+            user = pick_user(index)
+            handle.write(
+                f"{ts(current_time)} session={session_id} event=LOGIN user={user}\n"
+            )
+            current_time += timedelta(seconds=2)
+            handle.write(
+                f"{ts(current_time)} session={session_id} event=VIEW page=stress-{index:05d}\n"
+            )
+            current_time += timedelta(seconds=3)
+            handle.write(
+                f"{ts(current_time)} session={session_id} event=LOGOUT user={user}\n"
+            )
+            current_time += timedelta(seconds=5)
+
+    return session_count * 3
+
+
+def generate_mixed_session(
+    index: int,
+    sample_number: int,
+    kind: str,
+    current_time: datetime,
+) -> tuple[list[str], datetime, str, str]:
+    """Create one valid or structurally invalid demonstration session."""
+    session_id = f"M{sample_number}_{index:05d}"
+    user = pick_user(index + sample_number * 100)
+    lines: list[str] = []
+    if kind == "valid":
+        lines.append(f"{ts(current_time)} session={session_id} event=LOGIN user={user}")
+        current_time += timedelta(seconds=2)
+        lines.append(f"{ts(current_time)} session={session_id} event=VIEW page=sample-{sample_number}-{index:05d}")
+        current_time += timedelta(seconds=3)
+        lines.append(f"{ts(current_time)} session={session_id} event=LOGOUT user={user}")
+        label, reason = "valid", "normal LOGIN->VIEW->LOGOUT session"
+    elif kind == "missing_login":
+        lines.append(f"{ts(current_time)} session={session_id} event=VIEW page=sample-{sample_number}-{index:05d}")
+        current_time += timedelta(seconds=2)
+        lines.append(f"{ts(current_time)} session={session_id} event=EDIT page=sample-{sample_number}-{index:05d}")
+        current_time += timedelta(seconds=3)
+        lines.append(f"{ts(current_time)} session={session_id} event=LOGOUT user={user}")
+        label, reason = "invalid", "missing LOGIN"
+    elif kind == "missing_logout":
+        lines.append(f"{ts(current_time)} session={session_id} event=LOGIN user={user}")
+        current_time += timedelta(seconds=2)
+        lines.append(f"{ts(current_time)} session={session_id} event=VIEW page=sample-{sample_number}-{index:05d}")
+        label, reason = "invalid", "missing LOGOUT"
+    elif kind == "after_logout":
+        lines.append(f"{ts(current_time)} session={session_id} event=LOGIN user={user}")
+        current_time += timedelta(seconds=2)
+        lines.append(f"{ts(current_time)} session={session_id} event=VIEW page=sample-{sample_number}-{index:05d}")
+        current_time += timedelta(seconds=3)
+        lines.append(f"{ts(current_time)} session={session_id} event=LOGOUT user={user}")
+        current_time += timedelta(seconds=2)
+        lines.append(f"{ts(current_time)} session={session_id} event=DELETE page=sample-{sample_number}-{index:05d}")
+        label, reason = "invalid", "action after LOGOUT"
+    else:
+        raise ValueError(f"Unknown mixed session kind: {kind}")
+
+    return lines, current_time + timedelta(seconds=5), label, reason
+
+
+def generate_mixed_samples(
+    sample1_valid: int = 1_469,
+    sample1_invalid: int = 653,
+    sample2_valid: int = 546,
+    sample2_invalid: int = 167,
+) -> None:
+    """Write two large mixed datasets and matching CSV label files.
+
+    Invalid session kinds and event ordering are shuffled with a local fixed
+    seed, keeping the generated dataset reproducible while avoiding a repeated
+    fixed pattern. CSV files are labels, not additional logs.
+    """
+    sample_specs = (
+        (1, "sample_logs.txt", sample1_valid, sample1_invalid),
+        (2, "test_logs.txt", sample2_valid, sample2_invalid),
+    )
+    if any(valid < 0 or invalid < 0 or valid + invalid == 0
+           for _, _, valid, invalid in sample_specs):
+        raise ValueError("each mixed sample needs non-negative counts and at least one session")
+
+    out = Path(__file__).parent
+    for sample_number, filename, valid_count, invalid_count in sample_specs:
+        lines: list[str] = []
+        labels = ["# session_id,valid|invalid,reason"]
+        current_time = datetime(2024, sample_number, 1, 8, 0, 0)
+        invalid_kinds = (
+            ["missing_login"] * (invalid_count // 3)
+            + ["missing_logout"] * (invalid_count // 3)
+            + ["after_logout"] * (invalid_count - 2 * (invalid_count // 3))
+        )
+        kinds = ["valid"] * valid_count + invalid_kinds
+        random.Random(10_000 + sample_number).shuffle(kinds)
+
+        for index, kind in enumerate(kinds, start=1):
+            session_lines, current_time, label, reason = generate_mixed_session(
+                index, sample_number, kind, current_time
+            )
+            lines.extend(session_lines)
+            labels.append(f"M{sample_number}_{index:05d},{label},{reason}")
+
+        (out / filename).write_text("\n".join(lines) + "\n", encoding="utf-8")
+        (out / f"sample{sample_number}_ground_truth.csv").write_text(
+            "\n".join(labels) + "\n", encoding="utf-8"
+        )
+        print(
+            f"[gen] {filename} — {len(lines)} events across {len(kinds)} sessions "
+            f"({valid_count} valid, {invalid_count} invalid)"
+        )
+
+
 def main():
+    parser = argparse.ArgumentParser(description="Generate deterministic AutoSense log datasets")
+    parser.add_argument(
+        "--very-long-only",
+        action="store_true",
+        help="Generate only data/very_long_logs.txt; leave training/test data unchanged",
+    )
+    parser.add_argument(
+        "--very-long-sessions",
+        type=int,
+        default=10_000,
+        help="Number of valid sessions in the stress log (default: 10000)",
+    )
+    parser.add_argument(
+        "--mixed-samples-only",
+        action="store_true",
+        help="Generate only the two large mixed sample logs and their CSV labels",
+    )
+    args = parser.parse_args()
+
+    if args.very_long_only:
+        lines = generate_very_long_log(args.very_long_sessions)
+        print(
+            f"[gen] very_long_logs.txt — {lines} events across "
+            f"{args.very_long_sessions} sessions"
+        )
+        return
+
+    if args.mixed_samples_only:
+        generate_mixed_samples()
+        return
+
     out = Path(__file__).parent
 
     # ── Training ────────────────────────────────────────────────────────────────

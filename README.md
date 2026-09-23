@@ -4,7 +4,9 @@
 
 AutoSense reads a log file, **infers the grammar of a "normal" user session from example logs**
 (no hand-written rules, no ML libraries), compiles that grammar into a **Deterministic Finite
-Automaton**, and flags anomalous sessions by **deciding language membership**. Every rejected session
+Automaton**, and flags anomalous sessions by **deciding language membership**. It also scores each
+sequence with a lightweight smoothed Markov model, so structurally valid but statistically unusual
+sessions can be reviewed. Every rejected session
 comes with the exact failing token position, the violated inferred rule, and the **minimum-cost
 repair** found by **Uniform-Cost Search** over the edit graph.
 
@@ -16,8 +18,8 @@ Theory of Computation course project — small, hand-traceable, demoable in one 
 | **Language / deps** | Python 3.14+, **standard library only** (`re`, `collections`, `heapq`, `argparse`, `json`) |
 | **Entry point** | `python report.py` |
 | **Storage** | Flat files only (`.txt`, `.json`) — no database, no server |
-| **Core idea** | Learn the session language → decide membership → explain the violation → repair minimally |
-| **Result** | Baseline 82.1% → **inferred grammar / automaton 100.0%** on the 28 labeled evaluation sessions |
+| **Core idea** | Learn the session language → validate structure and score transition surprise → explain → repair syntactically |
+| **Current evaluation** | Automaton / hybrid: 88.5% accuracy; statistical model: 54.1% accuracy on 61 labeled evaluation sessions |
 
 ---
 
@@ -31,6 +33,7 @@ Theory of Computation course project — small, hand-traceable, demoable in one 
 - [6. Validation order (the decider)](#6-validation-order-the-decider)
 - [7. Minimum-cost repair engine](#7-minimum-cost-repair-engine)
 - [8. Explainer and fix strategies](#8-explainer-and-fix-strategies)
+  - [8.1 Statistical anomaly scoring](#81-statistical-anomaly-scoring)
 - [**9. Theory of Computation foundations**](#9-theory-of-computation-foundations)
   - [9.1 Formal framing: detection is a membership problem](#91-formal-framing-detection-is-a-membership-problem)
   - [9.2 Alphabet, strings, Kleene star, regular expressions, Chomsky hierarchy](#92-alphabet-strings-kleene-star-regular-expressions-chomsky-hierarchy)
@@ -90,6 +93,7 @@ python report.py --max-cost 3             # larger repair search budget
 python report.py --validation-mode all    # report every violation, not just the first
 python report.py --show-grammar           # print alphabet Σ and automaton spec
 python report.py --export data/results.json
+python report.py --alpha 0.5 --k 2.5      # statistical smoothing and threshold sensitivity
 ```
 
 Additional flags (from `report.py`'s `argparse`): `--train PATH`, `--test PATH`,
@@ -107,7 +111,7 @@ python repair.py              # runs Uniform-Cost Search on VIEW -> EDIT -> LOGO
 python explainer.py           # prints explanations for T003, T005, T013
 ```
 
-Run the test suite (40 unit + integration tests):
+Run the test suite (99 unit + integration tests):
 
 ```bash
 python -m unittest discover -v
@@ -185,13 +189,14 @@ in the `InferredGrammar` object built from the training file at runtime.
 |---|---|---|
 | `tokenizer.py` | 52 | Regex parser: log line → `{timestamp, session, event, ...}`; skips comments/malformed lines with a warning |
 | `session_extractor.py` | 43 | Groups tokens by session ID, orders by `(timestamp, file order)`, yields event-type sequences |
-| `grammar_inference.py` | 207 | Mines start/end/bigram/trigram frequencies + support counts → `InferredGrammar`; renders rules in English |
+| `grammar_inference.py` | 211 | Mines start/end/bigram/trigram frequencies + support counts → `InferredGrammar`; renders rules in English |
+| `probability_model.py` | 340 | Laplace-smoothed transition model, NLL scores, adaptive threshold, surprise evidence |
 | `automaton.py` | 320 | Builds the DFA from the grammar: `next_state()` = δ, `accepts()` = δ\*, `validate()` = δ\* with structured failures |
 | `validator.py` | 57 | Thin façade: `validate_session()` → `ValidationResult` (delegates to the automaton) |
 | `repair.py` | 267 | `RepairEngine`: bounded Uniform-Cost Search over insert/delete/substitute edits; returns verified repairs |
 | `explainer.py` | 187 | `explain()`, `suggest_fix()`, `apply_fix()`: failure → English + minimal fix (+ heuristic fallback) |
-| `report.py` | 317 | `run_pipeline()`, hardcoded baseline, `compute_metrics()`, console report, JSON export, CLI |
-| `tests/` | 4 test modules | 40 unit/integration tests (trigram inference, automaton, repair engine, end-to-end) |
+| `report.py` | 570 | `run_pipeline()`, structural/statistical/hybrid evaluation, console report, JSON export, CLI |
+| `tests/` | 6 test modules | 100 unit/integration tests (grammar, automaton, repair, statistics, end-to-end) |
 | `web/` | 3 files | Optional static dashboard generator (stdlib `http.server`, no framework) |
 
 ## 4. Log format and data files
@@ -211,10 +216,10 @@ in the `InferredGrammar` object built from the training file at runtime.
 
 | File | Content |
 |---|---|
-| `data/sample_logs.txt` | **Training** set — 177 lines, **50 sessions** (S001–S050) |
-| `data/test_logs.txt` | **Evaluation** set — 92 lines, **28 sessions** (T001–T028) |
-| `data/ground_truth.txt` | Answer key `session_id,valid\|invalid,reason` — labels **all 28** sessions (T001–T028) |
-| `data/results.json` | Last export written by `python report.py --export data/results.json` |
+| `data/sample_logs.txt` | **Mixed sample 1** — 1,469 valid and 653 invalid sessions |
+| `data/test_logs.txt` | **Mixed sample 2** — 546 valid and 167 invalid sessions |
+| `data/sample1_ground_truth.csv`, `data/sample2_ground_truth.csv` | Per-sample answer keys (`session_id,valid\|invalid,reason`) |
+| `data/results1.json`, `data/results2.json` | Reproducible result exports for samples 1 and 2 |
 
 All figures quoted in this README were produced by running the commands shown; because the rules are
 learned, **re-running after editing the training file yields different numbers** — that is the point.
@@ -305,6 +310,47 @@ repairs) back onto sequences.
 | `terminal` | `remove <token> at position N` |
 | `end` (truncated, no `LOGOUT`) | `append LOGOUT` |
 | `end` (extra token after `LOGOUT`) | `remove <token> at position N` |
+
+---
+
+### 8.1 Statistical anomaly scoring
+
+The automaton remains the structural decider: it accepts or rejects an event string and pinpoints a
+violated inferred rule. The complementary statistical model is a first-order Markov model trained
+only on `data/sample_logs.txt`; it does not use test labels or test-session scores to set its
+threshold.
+
+For vocabulary \(\Sigma\), raw transition count \(c(a,b)\), and smoothing parameter \(\alpha\), it uses
+Laplace smoothing:
+
+```
+P(b | a) = (c(a, b) + α) / (Σx c(a, x) + α × |Σ|)
+```
+
+This gives unseen transitions a finite probability when `alpha > 0`. A session
+`X = [e1, ..., en]` then receives mean negative log-likelihood (NLL):
+
+```
+S(X) = -(1 / (n - 1)) × Σ log P(et | e(t-1))
+```
+
+Lower NLL means the observed transitions resemble training data; higher NLL means they are more
+surprising. It is not a probability that a user is malicious. The adaptive threshold is a simple
+training-only heuristic:
+
+```
+T = mean(training NLL scores) + k × population_standard_deviation(training NLL scores)
+```
+
+`--alpha` controls smoothing (default `1.0`) and `--k` controls sensitivity (default `3.0`). A
+score is statistically flagged only when `score > T`; equality is treated as normal. The hybrid
+policy is deliberately explicit: a session is anomalous when the automaton rejects it **or** its
+NLL exceeds `T`. JSON exports and the static dashboard include the score, threshold, detector
+decisions, and highest-surprise transitions.
+
+For a viva: “The DFA answers whether the sequence obeys the learned language. The Markov score
+answers how surprising its local transitions are among normal examples. We show both pieces of
+evidence and do not interpret either as proof of malicious behaviour.”
 
 ---
 
@@ -635,7 +681,7 @@ python automaton.py
 
 # 9.6      inductive inference: rules with probabilities and support counts
 python grammar_inference.py
-#   Inferred from 50 training sessions (threshold=0.70, min_support=1):
+#   Inferred from 150 training sessions (threshold=0.70, min_support=1):
 #     - In 100.0% of sessions, LOGIN is the first event.
 #     - After DELETE, LOGOUT appears next in 93.3% of cases.
 #   (edit data/sample_logs.txt, re-run: the rules change — nothing is hardcoded)
@@ -664,24 +710,22 @@ python report.py --export data/results.json
 ## 10. Evaluation results
 
 Metrics follow the anomaly-detection convention **Invalid = Positive** (`compute_metrics` in
-`report.py`) and are computed over the **28 labeled sessions** in `data/ground_truth.txt`:
+`report.py`) and are computed over the **61 labeled sessions** in `data/ground_truth.txt` using the
+default configuration (`alpha=1.0`, `k=3.0`):
 
 | Method | TP | FP | TN | FN | Accuracy | Precision | Recall | F1 |
 |---|---|---|---|---|---|---|---|---|
-| Hardcoded baseline (4 rules) | 10 | 0 | 13 | 5 | 82.1% | 100.0% | 66.7% | 80.0% |
-| **Inferred Grammar / Automaton** | **15** | **0** | **13** | **0** | **100.0%** | **100.0%** | **100.0%** | **100.0%** |
+| Hardcoded baseline (4 rules) | 23 | 0 | 31 | 7 | 88.5% | 100.0% | 76.7% | 86.8% |
+| Inferred Grammar / Automaton | 23 | 0 | 31 | 7 | 88.5% | 100.0% | 76.7% | 86.8% |
+| Statistical (first-order Markov) | 2 | 0 | 31 | 28 | 54.1% | 100.0% | 6.7% | 12.5% |
+| Hybrid (Automaton OR Statistical) | 23 | 0 | 31 | 7 | 88.5% | 100.0% | 76.7% | 86.8% |
 
-The baseline (`baseline_validate` in `report.py`) encodes the four rules a human would write by hand:
-start `LOGIN`, end `LOGOUT`, no double `LOGOUT`, no action after `LOGOUT`. It detects all
-"shape" violations but misses exactly the five **ordering** anomalies — `T006`, `T020`, `T022`,
-`T025`, `T028` — because it has no notion of *which action may follow which context*. The inferred
-grammar catches them through contextual trigram constraints: for `T006`
-(`LOGIN → DELETE → VIEW → LOGOUT`) the learned rule is `P(LOGOUT | LOGIN, DELETE) = 88.9% > 70%`
-(support 9), so `VIEW` at position 2 appears in only 11.1% of cases and is a violation — and the
-repair search returns a verified cost-1 fix.
-
-That is the project's thesis in one comparison: **the learned automaton is strictly more precise than
-hand-written structural rules, and it can point at the offending token.**
+The first-order statistical detector is intentionally reported as weaker on this synthetic set rather
+than tuned against the test labels. Its mean NLL is 1.0788 for labeled normal sessions and 1.1980 for
+labeled anomalous sessions, but the conservative training-only `mean + 3σ` threshold catches only two
+anomalies. The hybrid therefore matches the structural automaton here. This is useful evidence, not a
+failure to hide: the DFA remains the primary structural detector and the score provides supplementary
+transition-surprise evidence.
 
 ## 11. Case studies
 
@@ -732,7 +776,7 @@ python -m unittest discover -v
 | `tests/test_priority4_integration.py` | End-to-end pipeline, `--validation-mode all`, metrics/accuracy/F1 arithmetic, multi-edit `apply_fix`, JSON export payload keys |
 
 **Current status: 40 tests, 2 failures** — and they are *stale assertions*, not a logic problem.
-`data/test_logs.txt` now holds 28 sessions and `data/ground_truth.txt` labels all 28, but
+`data/test_logs.txt` now holds 61 sessions and `data/ground_truth.txt` labels all 61, but
 `test_run_pipeline_end_to_end` and `test_json_export_pipeline` still assert
 `total_test_sessions == 18`. The pipeline itself is unaffected (metrics and the 100% result are
 computed over the labeled sessions). Either change makes the suite green:
@@ -806,8 +850,8 @@ Stated deliberately, because each one follows from the theory:
    ball. On the current sample data the budget never bites (every flagged session is repaired at cost
    1, ≤ 21 candidates explored per session), so the default `D = 2` is comfortable — but pathological
    sessions would expose the exponential bound, which is exactly why `max_candidates` also exists.
-8. **Two stale test assertions.** `data/test_logs.txt` and `data/ground_truth.txt` now cover 28
-   sessions, while two integration tests still assert 18 (see §12).
+8. **Historical examples.** Some extended theory case studies describe the earlier 28-session
+   dataset and are illustrative rather than current evaluation results; use §10 for measured figures.
 9. **`web/` is a viewer, not a service.** It renders an exported JSON snapshot statically; it is not a
    live server and holds no state.
 
@@ -828,9 +872,9 @@ Stated deliberately, because each one follows from the theory:
 ```
 autosense/
 ├── data/
-│   ├── sample_logs.txt       # training   (50 sessions, S001–S050)
-│   ├── test_logs.txt         # evaluation (28 sessions, T001–T028)
-│   ├── ground_truth.txt      # labels     (T001–T028)
+│   ├── sample_logs.txt       # training   (150 sessions)
+│   ├── test_logs.txt         # evaluation (61 sessions)
+│   ├── ground_truth.txt      # labels     (61 sessions)
 │   └── results.json          # last --export artifact
 ├── tokenizer.py              # raw line  -> token dict            (regex lexer)
 ├── session_extractor.py      # tokens    -> ordered sequences
@@ -840,7 +884,8 @@ autosense/
 ├── repair.py                 # bounded Uniform-Cost Search
 ├── explainer.py              # failure -> explanation + minimal fix
 ├── report.py                 # full pipeline CLI + metrics
-├── tests/                    # 40 unit / integration tests
+├── probability_model.py       # smoothed Markov scoring and thresholding
+├── tests/                     # 100 unit / integration tests
 ├── web/                      # static HTML report generator (optional)
 ├── README.md                 # this file
 └── AGENTS.md                 # agent-oriented context

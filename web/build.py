@@ -44,11 +44,12 @@ def build(json_path: str = DEFAULT_JSON, output: str = OUTPUT) -> str:
     return output
 
 
-def serve(directory: str, port: int = 8000):
+def serve(directory: str, report_name: str, port: int = 8000):
+    """Serve the directory containing the generated report and open that report."""
     handler = http.server.SimpleHTTPRequestHandler
     httpd = http.server.HTTPServer(("", port), handler)
-    url = f"http://localhost:{port}/report.html"
-    print(f"[serve] http://localhost:{port}/report.html  (Ctrl+C to stop)")
+    url = f"http://localhost:{port}/{report_name}"
+    print(f"[serve] {url}  (Ctrl+C to stop)")
     # Try to open in browser non-blocking
     threading.Timer(0.5, lambda: webbrowser.open(url)).start()
     os.chdir(directory)
@@ -71,7 +72,8 @@ def main():
 
     output = build(args.json, args.out)
     if args.serve:
-        serve(WEB_DIR, args.port)
+        output_path = os.path.abspath(output)
+        serve(os.path.dirname(output_path), os.path.basename(output_path), args.port)
 
 
 if __name__ == "__main__":

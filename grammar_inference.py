@@ -17,6 +17,9 @@ class InferredGrammar:
     trigram_rules: dict[tuple[str, str], dict[str, float]] = field(default_factory=dict)
     trigram_support: dict[tuple[str, str], int] = field(default_factory=dict)
     trigram_counts: dict[tuple[str, str], dict[str, int]] = field(default_factory=dict)
+    # Raw integer bigram counts {left: {right: count}} used by the probability
+    # model to compute exact Laplace-smoothed transition probabilities.
+    bigram_raw_counts: dict[str, dict[str, int]] = field(default_factory=dict)
     threshold: float = 0.70
     min_support: int = 1
     session_count: int = 0
@@ -121,6 +124,7 @@ def infer_grammar(
         trigram_rules=trigram_rules,
         trigram_support=dict(trigram_support),
         trigram_counts={ctx: dict(counts) for ctx, counts in trigram_counts.items()},
+        bigram_raw_counts={left: dict(counts) for left, counts in bigram_counts.items()},
         threshold=threshold,
         min_support=min_support,
         session_count=total,

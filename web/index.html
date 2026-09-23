@@ -615,6 +615,8 @@ function render(results) {
     ['Min-support', results.min_support],
     ['Max repair cost', results.max_repair_cost],
     ['Validation mode', results.validation_mode],
+    ['Smoothing α', results.probability_model_config?.alpha ?? '—'],
+    ['Statistical threshold', results.probability_model_config?.adaptive_threshold ?? '—'],
   ];
   pills.forEach(([k, v]) => {
     meta.appendChild(el('div', 'meta-pill', `${k}: <strong>${v}</strong>`));
@@ -632,7 +634,8 @@ function render(results) {
   const hStats = el('h2', null, 'Test Set Summary');
   app.appendChild(hStats);
   const statsRow = el('div', 'stats-row');
-  const flaggedCount = results.flagged_sessions.length;
+  const flaggedCount = (results.session_records || results.flagged_sessions)
+    .filter(s => s.final_anomaly).length;
   const validCount   = results.valid_count;
   const anomalyRate  = (100 - results.valid_percent).toFixed(1);
 
@@ -677,9 +680,10 @@ function render(results) {
   const statusSelect = el('select', 'control');
   statusSelect.setAttribute('aria-label', 'Filter by validation status');
   statusSelect.innerHTML = `
+    <option value="flagged">Structurally flagged</option>
     <option value="all">All statuses</option>
     <option value="valid">Valid</option>
-    <option value="flagged">Flagged</option>`;
+    <option value="stat_flagged">Statistically flagged</option>`;
 
   const typeSelect = el('select', 'control');
   typeSelect.setAttribute('aria-label', 'Filter by violated rule');
@@ -711,7 +715,10 @@ function render(results) {
   const cards = [];
 
   sessionRecords.forEach(s => {
-    const isValid = s.status === 'valid';
+    // Older exports have no `automaton_valid`; retain their original status
+    // semantics instead of treating an absent field as accepted.
+    const isValid = s.automaton_valid === true ||
+      (s.automaton_valid == null && s.status === 'valid');
     const failPos = s.failure_index ?? extractFailPos(s.explanation || '');
     const card = el('div', `session-card${isValid ? ' valid' : ''}`);
     card.dataset.id = s.session_id.toLowerCase();
@@ -744,7 +751,10 @@ function render(results) {
     body.appendChild(origRow);
 
     if (isValid) {
-      body.appendChild(el('div', 'violation', 'Accepted by the inferred grammar. No repair was needed.'));
+      const message = s.statistical_anomaly
+        ? 'Accepted by the inferred grammar, but its statistical score exceeds the adaptive threshold. No syntactic repair is required.'
+        : 'Accepted by the inferred grammar. No repair was needed.';
+      body.appendChild(el('div', 'violation', message));
     } else {
       // Use the structured violation sent by report.py; prose is display-only.
       body.appendChild(el('div', 'violation', highlightRule(s.violated_rule || s.explanation || 'Unknown validation failure.')));
@@ -759,6 +769,19 @@ function render(results) {
         fixDiv.appendChild(el('span', 'verified-badge', '✓ verified'));
       }
       body.appendChild(fixDiv);
+    }
+
+    const score = Number(s.anomaly_score);
+    if (Number.isFinite(score)) {
+      const threshold = s.adaptive_threshold == null ? '∞' : Number(s.adaptive_threshold).toFixed(4);
+      const statistical = s.statistical_anomaly ? 'exceeded' : 'not exceeded';
+      body.appendChild(el('div', 'violation', `Statistical evidence: mean NLL <strong>${score.toFixed(4)}</strong>; adaptive threshold <strong>${threshold}</strong> (${statistical}).`));
+    }
+    if (s.top_surprising_transitions?.length) {
+      const transitions = s.top_surprising_transitions.map(t =>
+        `${t.previous_event} → ${t.current_event} (P=${Number(t.transition_probability).toFixed(4)}, surprise=${Number(t.surprise).toFixed(2)})`
+      ).join('<br>');
+      body.appendChild(el('div', 'violation', `<strong>Most surprising transitions:</strong><br>${transitions}`));
     }
 
     card.appendChild(body);
@@ -784,11 +807,13 @@ function render(results) {
     });
 
     const { session: s, failPos } = record;
+    const selectedIsValid = s.automaton_valid === true ||
+      (s.automaton_valid == null && s.status === 'valid');
     const extra = s.additional_violations?.length
       ? `${s.additional_violations.length} additional violation(s)` : 'No additional violations';
     inspector.innerHTML = '';
     const head = el('div', 'inspector-head');
-    head.appendChild(el('div', 'inspector-title', `${s.session_id} · ${s.status === 'valid' ? 'Validation' : 'Repair'} inspector`));
+    head.appendChild(el('div', 'inspector-title', `${s.session_id} · ${selectedIsValid ? 'Validation' : 'Repair'} inspector`));
     const close = el('button', 'button-secondary', 'Close');
     close.type = 'button';
     close.addEventListener('click', () => {
@@ -801,12 +826,13 @@ function render(results) {
     inspector.appendChild(head);
     const details = el('div', 'inspector-grid');
     [
-      ['Result', s.status === 'valid' ? 'Accepted by inferred grammar' : `Failure at position ${failPos}: ${s.sequence[failPos] ?? 'EMPTY'}`],
-      ['Rule type', s.status === 'valid' ? 'No violated rule' : ruleBadgeLabel(s.rule_type)],
+      ['Result', selectedIsValid ? 'Accepted by inferred grammar' : `Failure at position ${failPos}: ${s.sequence[failPos] ?? 'EMPTY'}`],
+      ['Rule type', selectedIsValid ? 'No violated rule' : ruleBadgeLabel(s.rule_type)],
       ['Context', s.context?.length ? s.context.join(' → ') : 'Start of session'],
       ['Repair cost', s.repair_cost == null ? 'No repair in budget' : String(s.repair_cost)],
       ['Search work', `${s.repair_explored_candidates} candidates explored`],
       ['Other findings', extra],
+      ['Statistical score', `${Number(s.anomaly_score).toFixed(4)} / ${s.adaptive_threshold ?? '∞'}`],
     ].forEach(([label, value]) => {
       const cell = el('div', 'inspector-cell');
       cell.appendChild(el('small', null, label));
@@ -814,7 +840,7 @@ function render(results) {
       details.appendChild(cell);
     });
     inspector.appendChild(details);
-    if (s.status !== 'valid') {
+    if (!selectedIsValid) {
       const actions = el('div', 'inspector-actions');
       const copy = el('button', 'button-secondary', 'Copy repair');
       copy.type = 'button';
@@ -868,6 +894,9 @@ function render(results) {
     applyFilters();
     searchInput.focus();
   });
+  // Open on the anomalies so the primary evidence is immediately visible.
+  statusSelect.value = 'flagged';
+  sortSelect.value = 'failure';
   applyFilters();
 
   // ── Evaluation metrics table (dynamic from embedded JSON) ───────────────────
